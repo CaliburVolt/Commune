@@ -1,54 +1,98 @@
 # Commune - Full Stack Chat Application with WebRTC Calling
 
-A modern, real-time chat application with authentication, private messaging, group chats, and WebRTC voice/video calling. Built with Next.js frontend and Express.js backend.
+<div align="center">
 
-## 🚀 Features
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColo## 🔌 Socket.IO Events=white)
+![WebRTC](https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
-### Authentication
+A modern, real-time chat application with authentication, private messaging, and **WebRTC voice/video calling**. Built with Next.js frontend and Express.js backend.
+
+[🚀 Live Demo](https://commune-4gqx.onrender.com) • [📖 Documentation](#-api-documentation) • [🔧 Setup Guide](#-getting-started)
+
+</div>
+
+---
+
+## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🔐 Authentication & Security
 - User registration and login
+- **OAuth integration** (Google, GitHub)
 - JWT-based authentication
-- OAuth integration (Google, GitHub)
 - Secure password hashing
 - Session management
 
-### Real-time Messaging
-- Socket.IO for instant messaging
+### 💬 Real-time Messaging
+- **Socket.IO** for instant messaging
 - Private one-on-one conversations
 - Group chat functionality
 - Typing indicators
 - Online/offline status
 
-### WebRTC Voice/Video Calling
-- Peer-to-peer voice and video calls
+</td>
+<td width="50%">
+
+### 📞 WebRTC Voice/Video Calling
+- **Peer-to-peer** voice and video calls
 - Real-time call signaling via Socket.IO
 - Call controls (mute, video toggle, speaker)
 - Incoming call notifications
 - Call duration tracking
 
-### Friend System
+### 👥 Social Features
 - Send and receive friend requests
 - Accept/reject friend requests
 - Friends list management
-- Search users
+- User search functionality
 
-### Group Management
-- Create public/private groups
-- Add/remove members
-- Group admin controls
-- Role-based permissions (Admin, Moderator, Member)
+</td>
+</tr>
+</table>
 
-### Modern UI/UX
-- Responsive design with Tailwind CSS
+### 🎨 Modern UI/UX
+- **Responsive design** with Tailwind CSS
 - Clean and intuitive interface
 - Real-time updates
 - Loading states and error handling
+- Professional call interface
 
 ## 🛠️ Tech Stack
 
+<div align="center">
+
 ### Frontend
+![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![NextAuth.js](https://img.shields.io/badge/NextAuth.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+
+### Backend
+![Node.js](https://img.shields.io/badge/Node.js_22-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
+### Real-time & Communication
+![WebRTC](https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
+
+</div>
+
+<details>
+<summary><strong>📋 Complete Technology List</strong></summary>
+
+**Frontend Technologies:**
 - **Next.js 15** - React framework with App Router
 - **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
+- **Tailwind CSS** - Utility-first styling
 - **NextAuth.js** - Authentication management
 - **Socket.IO Client** - Real-time communication
 - **WebRTC API** - Peer-to-peer calling
@@ -56,131 +100,142 @@ A modern, real-time chat application with authentication, private messaging, gro
 - **Lucide React** - Icons
 - **React Context** - State management
 
-### Backend
-- **Node.js** - Runtime
+**Backend Technologies:**
+- **Node.js 22** - JavaScript runtime
 - **Express.js** - Web framework
 - **TypeScript** - Type safety
-- **Socket.IO** - Real-time communication
+- **Socket.IO** - Real-time bidirectional communication
 - **Prisma** - Database ORM
-- **PostgreSQL** - Database (Neon recommended)
-- **JWT** - Authentication
+- **PostgreSQL** - Database (Neon)
+- **JWT** - Authentication tokens
 - **bcryptjs** - Password hashing
-- **Zod** - Validation
+- **Zod** - Schema validation
 
-## 📁 Project Structure
+</details>
+
+## 📁 Project Architecture
 
 ```
-chat-app/
-├── frontend/                 # Next.js frontend
-│   ├── src/
-│   │   ├── app/             # Next.js app directory
-│   │   │   ├── login/       # Login page
-│   │   │   ├── register/    # Registration page
-│   │   │   ├── chat/        # Main chat interface
-│   │   │   ├── settings/    # User settings
-│   │   │   └── layout.tsx   # Root layout
-│   │   ├── components/      # Reusable UI components
-│   │   │   ├── call/        # WebRTC calling components
-│   │   │   │   ├── IncomingCallModal.tsx
-│   │   │   │   └── ActiveCallInterface.tsx
-│   │   │   ├── chat/        # Chat-related components
-│   │   │   └── ui/          # Basic UI components
-│   │   ├── contexts/        # React contexts
-│   │   │   ├── AuthContext.tsx
-│   │   │   └── ChatContext.tsx
-│   │   ├── lib/             # Utilities
-│   │   │   ├── api.ts       # API client
-│   │   │   ├── socket.ts    # Socket.IO client
-│   │   │   └── webrtc.ts    # WebRTC service
-│   │   └── types/           # TypeScript types
-│   ├── package.json
-│   └── README.md
-└── backend/                  # Express.js backend
-    ├── src/
-    │   ├── routes/          # API routes
-    │   │   ├── auth.ts      # Authentication
-    │   │   ├── users.ts     # User management
-    │   │   ├── chat.ts      # Messaging
-    │   │   ├── groups.ts    # Group management
-    │   │   └── friends.ts   # Friend system
-    │   ├── middleware/      # Express middleware
-    │   │   └── auth.ts      # JWT authentication
-    │   ├── socket/          # Socket.IO handlers
-    │   │   └── socketHandler.ts
-    │   ├── utils/           # Utilities
-    │   │   ├── auth.ts      # Auth helpers
-    │   │   └── validation.ts # Zod schemas
-    │   └── index.ts         # Server entry point
-    ├── prisma/
-    │   └── schema.prisma    # Database schema
-    ├── package.json
-    └── README.md
+commune/
+├── 📁 frontend/                 # Next.js Frontend Application
+│   ├── 📁 src/
+│   │   ├── 📁 app/             # Next.js App Router
+│   │   │   ├── 📄 layout.tsx   # Root layout
+│   │   │   ├── 📄 page.tsx     # Home page
+│   │   │   ├── 📁 login/       # Authentication pages
+│   │   │   ├── 📁 register/    
+│   │   │   ├── 📁 chat/        # Main chat interface
+│   │   │   └── 📁 settings/    # User settings
+│   │   ├── 📁 components/      # Reusable UI Components
+│   │   │   ├── 📁 call/        # 📞 WebRTC Components
+│   │   │   │   ├── 📄 IncomingCallModal.tsx
+│   │   │   │   └── 📄 ActiveCallInterface.tsx
+│   │   │   ├── 📁 chat/        # 💬 Chat Components
+│   │   │   └── 📁 ui/          # 🎨 Basic UI Components
+│   │   ├── 📁 lib/             # 🔧 Utility Libraries
+│   │   │   ├── 📄 webrtc.ts    # WebRTC service
+│   │   │   ├── 📄 socket.ts    # Socket.IO client
+│   │   │   └── 📄 api.ts       # API client
+│   │   └── 📁 types/           # TypeScript definitions
+│   ├── 📁 public/              # Static assets
+│   └── 📄 package.json
+├── 📁 backend/                  # Express.js Backend API
+│   ├── 📁 src/
+│   │   ├── 📁 routes/          # 🛣️ API Routes
+│   │   │   ├── 📄 auth.ts      # Authentication
+│   │   │   ├── 📄 users.ts     # User management
+│   │   │   ├── 📄 chat.ts      # Messaging
+│   │   │   └── 📄 friends.ts   # Friend system
+│   │   ├── 📁 socket/          # 🔌 Socket.IO Handlers
+│   │   │   └── 📄 socketHandler.ts
+│   │   ├── 📁 middleware/      # Express middleware
+│   │   ├── 📁 utils/           # Utility functions
+│   │   └── 📄 index.ts         # Server entry point
+│   ├── 📁 prisma/
+│   │   ├── 📄 schema.prisma    # Database schema
+│   │   └── 📁 migrations/      # Database migrations
+│   └── 📄 package.json
+└── 📄 README.md
 ```
 
-## 🚀 Getting Started
+## 🚀 Quick Start Guide
 
-### Prerequisites
-- Node.js 18+
-- PostgreSQL database (Neon recommended for cloud)
-- pnpm (recommended) or npm
+### 📋 Prerequisites
+- **Node.js 18+** and **pnpm** (recommended)
+- **PostgreSQL** database (we recommend [Neon](https://neon.tech))
+- **Google/GitHub OAuth** credentials
 
-### Backend Setup
+---
 
-1. **Navigate to backend directory:**
+### 🔧 Backend Setup
+
+<details>
+<summary><strong>Click to expand backend setup</strong></summary>
+
+1. **📂 Navigate to backend directory**
    ```bash
    cd backend
    ```
 
-2. **Install dependencies:**
+2. **📦 Install dependencies**
    ```bash
    pnpm install
    ```
 
-3. **Environment setup:**
-   ```bash
-   cp .env.example .env
-   ```
-   
-   Update `.env` with your database and secrets:
+3. **⚙️ Environment Configuration**
+   Create `.env` file:
    ```env
-   DATABASE_URL="postgresql://username:password@host:port/database?sslmode=require"
-   JWT_SECRET="your-super-secret-jwt-key"
+   # Database
+   DATABASE_URL="postgresql://username:password@localhost:5432/commune"
+   
+   # Authentication
+   JWT_SECRET="your-super-secret-jwt-key-here"
+   
+   # Server Configuration
    PORT=5000
-   FRONTEND_URL="http://localhost:3000"
+   NODE_ENV=development
+   FRONTEND_URL=http://localhost:3000
    ```
 
-4. **Database setup:**
+4. **🗄️ Database Setup**
    ```bash
-   pnpm db:generate
-   pnpm db:push
+   pnpm run db:generate    # Generate Prisma client
+   pnpm run db:push        # Push schema to database
    ```
 
-5. **Start development server:**
+5. **🚀 Start Development Server**
    ```bash
-   pnpm dev
+   pnpm run dev
    ```
+   > Server runs on `http://localhost:5000`
 
-### Frontend Setup
+</details>
 
-1. **Navigate to frontend directory:**
+---
+
+### 🎨 Frontend Setup
+
+<details>
+<summary><strong>Click to expand frontend setup</strong></summary>
+
+1. **📂 Navigate to frontend directory**
    ```bash
    cd frontend
    ```
 
-2. **Install dependencies:**
+2. **📦 Install dependencies**
    ```bash
    pnpm install
    ```
 
-3. **Environment setup:**
-   ```bash
-   cp .env.local.example .env.local
-   ```
-   
-   Update `.env.local`:
+3. **⚙️ Environment Configuration**
+   Create `.env.local` file:
    ```env
+   # NextAuth Configuration
    NEXTAUTH_URL=http://localhost:3000
-   NEXTAUTH_SECRET=your-nextauth-secret
+   NEXTAUTH_SECRET=your-nextauth-secret-change-in-production
+   
+   # Backend URLs
    NEXT_PUBLIC_API_URL=http://localhost:5000
    NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
    
@@ -191,75 +246,153 @@ chat-app/
    GITHUB_CLIENT_SECRET=your-github-client-secret
    ```
 
-4. **Start development server:**
+4. **🚀 Start Development Server**
    ```bash
-   pnpm dev
+   pnpm run dev
+   ```
+   > Frontend runs on `http://localhost:3000`
+
+</details>
+
+---
+
+### 🌟 You're Ready!
+Open `http://localhost:3000` in your browser and start chatting!
+
+## 🌐 Deployment Guide
+
+<div align="center">
+
+### Production URLs
+🌐 **Frontend**: Deployed on [Vercel](https://vercel.com)  
+🔧 **Backend**: [`https://commune-4gqx.onrender.com`](https://commune-4gqx.onrender.com)
+
+</div>
+
+---
+
+### 🔧 Backend Deployment (Render)
+
+<details>
+<summary><strong>Step-by-step Render deployment</strong></summary>
+
+1. **🔗 Connect Repository**
+   - Connect your GitHub repository to Render
+   - Select the backend directory as root
+
+2. **⚙️ Environment Variables**
+   ```env
+   DATABASE_URL=your-neon-database-url
+   JWT_SECRET=secure-random-string
+   FRONTEND_URL=your-vercel-app-url
+   PORT=5000
    ```
 
-5. **Open your browser:**
+3. **🏗️ Build Settings**
+   - **Build Command**: `pnpm run build`
+   - **Start Command**: `pnpm start`
+
+</details>
+
+---
+
+### 🎨 Frontend Deployment (Vercel)
+
+<details>
+<summary><strong>Step-by-step Vercel deployment</strong></summary>
+
+1. **🔗 Connect Repository**
+   - Connect your GitHub repository to Vercel
+   - Select the frontend directory as root
+
+2. **⚙️ Environment Variables**
+   ```env
+   NEXTAUTH_URL=your-vercel-app-url
+   NEXTAUTH_SECRET=secure-random-string
+   NEXT_PUBLIC_API_URL=https://commune-4gqx.onrender.com
+   NEXT_PUBLIC_SOCKET_URL=https://commune-4gqx.onrender.com
+   # Add your OAuth credentials
    ```
-   http://localhost:3000
-   ```
 
-## 🌐 Deployment
+3. **🚀 Auto-Deploy**
+   - Automatically deploys on push to main branch
 
-### Backend (Render)
+</details>
 
-1. **Connect your GitHub repository to Render**
-2. **Set environment variables:**
-   - `DATABASE_URL` - Your Neon database URL
-   - `JWT_SECRET` - Secure random string
-   - `FRONTEND_URL` - Your Vercel app URL
-   - `PORT` - 5000
+---
 
-3. **Build command:** `pnpm run build`
-4. **Start command:** `pnpm start`
-5. **Production URL:** `https://commune-4gqx.onrender.com`
+### 🗄️ Database Setup (Neon)
 
-### Frontend (Vercel)
+<details>
+<summary><strong>PostgreSQL setup with Neon</strong></summary>
 
-1. **Connect your GitHub repository to Vercel**
-2. **Set environment variables:**
-   - `NEXTAUTH_URL` - Your Vercel app URL
-   - `NEXTAUTH_SECRET` - Secure random string
-   - `NEXT_PUBLIC_API_URL` - Your Render backend URL (`https://commune-4gqx.onrender.com`)
-   - `NEXT_PUBLIC_SOCKET_URL` - Your Render backend URL (`https://commune-4gqx.onrender.com`)
-   - OAuth credentials for Google and GitHub
+1. **🆕 Create Account**: Sign up at [Neon.tech](https://neon.tech)
+2. **🗄️ Create Database**: Create a new PostgreSQL database
+3. **🔗 Get Connection String**: Copy the connection URL
+4. **⚙️ Update Environment**: Add to both backend `.env` and deployment configs
 
-3. **Deploy automatically on push to main branch**
-
-### Database (Neon)
-
-1. **Create a Neon account and database**
-2. **Copy the connection string**
-3. **Update environment variables in both frontend and backend**
+</details>
 
 ## 📚 API Documentation
 
-### Authentication Endpoints
-- `POST /api/auth/register` - Register user
-- `POST /api/auth/login` - Login user
-- `POST /api/auth/change-password` - Change password
-- `DELETE /api/auth/delete-account` - Delete account
-- OAuth routes for Google and GitHub
+<div align="center">
 
-### User Endpoints
-- `GET /api/users/me` - Get current user
-- `PUT /api/users/me` - Update profile
-- `GET /api/users/search` - Search users
+### 🔗 Base URL
+**Development**: `http://localhost:5000`  
+**Production**: `https://commune-4gqx.onrender.com`
 
-### Chat Endpoints
-- `POST /api/chat/create` - Create/get chat with user
-- `GET /api/chat/messages` - Get messages
-- `GET /api/chat/conversations` - Get conversations
+</div>
 
-### Friend Endpoints
-- `POST /api/friends/request` - Send friend request
-- `GET /api/friends/requests/received` - Get received requests
-- `GET /api/friends/requests/sent` - Get sent requests
-- `GET /api/friends` - Get friends list
-- `POST /api/friends/request/:id/accept` - Accept request
-- `POST /api/friends/request/:id/reject` - Reject request
+---
+
+<details>
+<summary><strong>🔐 Authentication Endpoints</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/auth/register` | Register new user |
+| `POST` | `/api/auth/login` | User login |
+| `POST` | `/api/auth/change-password` | Change password |
+| `DELETE` | `/api/auth/delete-account` | Delete account |
+| `GET` | `/api/auth/[provider]` | OAuth routes (Google, GitHub) |
+
+</details>
+
+<details>
+<summary><strong>👥 User Management</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/users/me` | Get current user profile |
+| `PUT` | `/api/users/me` | Update user profile |
+| `GET` | `/api/users/search` | Search users by username |
+
+</details>
+
+<details>
+<summary><strong>💬 Chat System</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/chat/create` | Create/get chat with user |
+| `GET` | `/api/chat/messages` | Get chat messages |
+| `GET` | `/api/chat/conversations` | Get user conversations |
+
+</details>
+
+<details>
+<summary><strong>🤝 Friend System</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/friends/request` | Send friend request |
+| `GET` | `/api/friends/requests/received` | Get received requests |
+| `GET` | `/api/friends/requests/sent` | Get sent requests |
+| `GET` | `/api/friends` | Get friends list |
+| `POST` | `/api/friends/request/:id/accept` | Accept friend request |
+| `POST` | `/api/friends/request/:id/reject` | Reject friend request |
+
+</details>
 
 ## � Socket.IO Events
 
