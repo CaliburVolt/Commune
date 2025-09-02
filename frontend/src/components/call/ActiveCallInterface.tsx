@@ -78,11 +78,15 @@ export default function ActiveCallInterface({
   return (
     <div className="fixed inset-0 bg-gray-900 z-50 flex flex-col">
       {/* Header */}
-      <div className="bg-gray-800 text-white p-4 flex items-center justify-between">
+      <div className="bg-gray-800 text-white p-3 md:p-4 flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold">{callData.partnerName}</h2>
+          <h2 className="text-lg md:text-xl font-semibold">{callData.partnerName}</h2>
           <p className="text-sm text-gray-300">
             {callData.isConnected ? callDuration : 'Connecting...'}
+          </p>
+          {/* Debug info */}
+          <p className="text-xs text-gray-400">
+            Call ID: {callData.id} | Connected: {callData.isConnected ? 'Yes' : 'No'}
           </p>
         </div>
         {!callData.isConnected && (
@@ -106,7 +110,7 @@ export default function ActiveCallInterface({
             />
             
             {/* Local Video (Picture-in-Picture) */}
-            <div className="absolute top-4 right-4 w-32 h-24 bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <div className="absolute top-2 md:top-4 right-2 md:right-4 w-24 md:w-32 h-18 md:h-24 bg-gray-800 rounded-lg overflow-hidden shadow-lg">
               <video
                 ref={localVideoRef}
                 autoPlay
@@ -148,37 +152,37 @@ export default function ActiveCallInterface({
       </div>
 
       {/* Controls */}
-      <div className="bg-gray-800 p-6">
-        <div className="flex justify-center space-x-6">
+      <div className="bg-gray-800 p-4 md:p-6">
+        <div className="flex justify-center space-x-4 md:space-x-6">
           {/* Mute Button */}
           <button
             onClick={onToggleMute}
-            className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
+            className={`w-12 md:w-14 h-12 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
               isMuted 
                 ? 'bg-red-500 hover:bg-red-600' 
                 : 'bg-gray-700 hover:bg-gray-600'
             }`}
           >
             {isMuted ? (
-              <MicOff className="text-white" size={24} />
+              <MicOff className="text-white" size={20} />
             ) : (
-              <Mic className="text-white" size={24} />
+              <Mic className="text-white" size={20} />
             )}
           </button>
 
           {/* Speaker Button */}
           <button
             onClick={toggleSpeaker}
-            className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
+            className={`w-12 md:w-14 h-12 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
               isSpeakerOn 
                 ? 'bg-gray-700 hover:bg-gray-600' 
                 : 'bg-red-500 hover:bg-red-600'
             }`}
           >
             {isSpeakerOn ? (
-              <Volume2 className="text-white" size={24} />
+              <Volume2 className="text-white" size={20} />
             ) : (
-              <VolumeX className="text-white" size={24} />
+              <VolumeX className="text-white" size={20} />
             )}
           </button>
 
@@ -186,16 +190,16 @@ export default function ActiveCallInterface({
           {isVideoCall && (
             <button
               onClick={onToggleVideo}
-              className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
+              className={`w-12 md:w-14 h-12 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
                 isVideoEnabled 
                   ? 'bg-gray-700 hover:bg-gray-600' 
                   : 'bg-red-500 hover:bg-red-600'
               }`}
             >
               {isVideoEnabled ? (
-                <Video className="text-white" size={24} />
+                <Video className="text-white" size={20} />
               ) : (
-                <VideoOff className="text-white" size={24} />
+                <VideoOff className="text-white" size={20} />
               )}
             </button>
           )}
@@ -203,9 +207,9 @@ export default function ActiveCallInterface({
           {/* End Call Button */}
           <button
             onClick={onEndCall}
-            className="w-14 h-14 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="w-12 md:w-14 h-12 md:h-14 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
-            <PhoneOff className="text-white" size={24} />
+            <PhoneOff className="text-white" size={20} />
           </button>
         </div>
       </div>

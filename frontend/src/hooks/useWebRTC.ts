@@ -119,7 +119,17 @@ export function useWebRTC() {
             startTime: new Date(),
           } : null,
         }));
+      } else if (state === 'connecting') {
+        console.log('WebRTC connection is establishing...');
+        setCallState(prev => ({
+          ...prev,
+          activeCall: prev.activeCall ? {
+            ...prev.activeCall,
+            isConnected: false,
+          } : null,
+        }));
       } else if (state === 'disconnected' || state === 'failed') {
+        console.log('WebRTC connection failed or disconnected:', state);
         setCallState(prev => ({
           ...prev,
           incomingCall: null,

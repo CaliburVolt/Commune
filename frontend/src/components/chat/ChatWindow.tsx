@@ -212,15 +212,15 @@ export default function ChatWindow() {
 
   if (!activeConversation) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
-        <div className="text-center p-8">
-          <div className="mx-auto w-32 h-32 bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 rounded-full flex items-center justify-center mb-6 shadow-xl">
-            <Send className="h-16 w-16 text-emerald-600" />
+      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 h-full">
+        <div className="text-center p-4 md:p-8 max-w-md mx-auto">
+          <div className="mx-auto w-20 md:w-32 h-20 md:h-32 bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 rounded-full flex items-center justify-center mb-4 md:mb-6 shadow-xl">
+            <Send className="h-10 md:h-16 w-10 md:w-16 text-emerald-600" />
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-3">
+          <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-2 md:mb-3">
             Ready to start chatting?
           </h3>
-          <p className="text-gray-600 max-w-md mx-auto leading-relaxed">
+          <p className="text-gray-600 max-w-md mx-auto leading-relaxed text-sm md:text-base px-4">
             Select a conversation from the sidebar to begin messaging, or start a new chat with your friends.
           </p>
         </div>
@@ -235,77 +235,77 @@ export default function ChatWindow() {
   const groupedMessages = groupMessagesByDate(messages);
 
   return (
-    <div className="flex-1 flex flex-col bg-white border-l border-gray-200">
+    <div className="flex-1 flex flex-col bg-white h-full min-w-0">
       {/* Chat Header */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 backdrop-blur-md">
+      <div className="px-3 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 backdrop-blur-md flex-shrink-0">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="relative">
+          <div className="flex items-center space-x-2 md:space-x-4 min-w-0 flex-1">
+            <div className="relative flex-shrink-0">
               {activeConversation.type === 'group' ? (
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
-                  <span className="text-white font-bold text-lg drop-shadow-sm">
+                <div className="w-10 md:w-12 h-10 md:h-12 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
+                  <span className="text-white font-bold text-base md:text-lg drop-shadow-sm">
                     {conversationName?.charAt(0)?.toUpperCase()}
                   </span>
                 </div>
               ) : (
-                <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
-                  <span className="text-white font-bold text-lg drop-shadow-sm">
+                <div className="w-10 md:w-12 h-10 md:h-12 bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
+                  <span className="text-white font-bold text-base md:text-lg drop-shadow-sm">
                     {conversationName?.charAt(0)?.toUpperCase()}
                   </span>
                 </div>
               )}
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-gradient-to-r from-emerald-400 to-green-400 rounded-full border-2 border-white shadow-sm"></div>
+              <div className="absolute -bottom-1 -right-1 w-3 md:w-4 h-3 md:h-4 bg-gradient-to-r from-emerald-400 to-green-400 rounded-full border-2 border-white shadow-sm"></div>
             </div>
-            <div>
-              <h2 className="text-xl font-bold bg-gradient-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-lg md:text-xl font-bold bg-gradient-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent truncate">
                 {conversationName}
               </h2>
-              <p className="text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent flex items-center space-x-1">
+              <p className="text-xs md:text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent flex items-center space-x-1">
                 <span className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-green-400 rounded-full animate-pulse"></span>
                 <span>{activeConversation.type === 'group' ? 'Group chat' : 'Online'}</span>
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 md:space-x-2 flex-shrink-0">
             {/* Only show call buttons for direct messages (not groups) */}
             {activeConversation.type !== 'group' && (
               <>
                 <button 
                   onClick={handleAudioCall}
                   disabled={isInCall}
-                  className={`p-3 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md ${
+                  className={`p-2 md:p-3 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md ${
                     isInCall ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   title="Audio Call"
                 >
-                  <Phone className="h-5 w-5" />
+                  <Phone className="h-4 md:h-5 w-4 md:w-5" />
                 </button>
                 <button 
                   onClick={handleVideoCall}
                   disabled={isInCall}
-                  className={`p-3 text-gray-500 hover:text-cyan-600 hover:bg-cyan-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md ${
+                  className={`p-2 md:p-3 text-gray-500 hover:text-cyan-600 hover:bg-cyan-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md ${
                     isInCall ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   title="Video Call"
                 >
-                  <Video className="h-5 w-5" />
+                  <Video className="h-4 md:h-5 w-4 md:w-5" />
                 </button>
               </>
             )}
-            <button className="p-3 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md">
-              <MoreVertical className="h-5 w-5" />
+            <button className="p-2 md:p-3 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md">
+              <MoreVertical className="h-4 md:h-5 w-4 md:w-5" />
             </button>
           </div>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+      <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-4 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 min-h-0">
         {Object.entries(groupedMessages).map(([date, dayMessages]) => (
           <div key={date}>
             {/* Date separator */}
             <div className="flex items-center justify-center my-6">
-              <div className="bg-white/90 backdrop-blur-sm px-6 py-2 rounded-full shadow-md border border-gray-200/50">
+              <div className="bg-white/90 backdrop-blur-sm px-4 md:px-6 py-2 rounded-full shadow-md border border-gray-200/50">
                 <span className="text-xs text-gray-600 font-semibold tracking-wide">{date}</span>
               </div>
             </div>
@@ -319,14 +319,14 @@ export default function ChatWindow() {
               return (
                 <div
                   key={message.id}
-                  className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} group`}
+                  className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} group px-2 md:px-0`}
                 >
-                  <div className={`max-w-xs lg:max-w-md flex ${isOwnMessage ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2 relative`}>
+                  <div className={`max-w-[85%] md:max-w-xs lg:max-w-md flex ${isOwnMessage ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2 relative`}>
                     {/* Avatar */}
                     {!isOwnMessage && (
-                      <div className="w-8 h-8 mb-1">
+                      <div className="w-6 md:w-8 h-6 md:h-8 mb-1 flex-shrink-0">
                         {showAvatar ? (
-                          <div className={`w-8 h-8 bg-gradient-to-br ${userColors.avatar} rounded-full flex items-center justify-center shadow-lg ring-1 ring-white`}>
+                          <div className={`w-6 md:w-8 h-6 md:h-8 bg-gradient-to-br ${userColors.avatar} rounded-full flex items-center justify-center shadow-lg ring-1 ring-white`}>
                             <span className="text-white text-xs font-bold drop-shadow-sm">
                               {message.sender.name?.charAt(0) || message.sender.username?.charAt(0)}
                             </span>
@@ -335,7 +335,7 @@ export default function ChatWindow() {
                       </div>
                     )}
 
-                    <div className={`${isOwnMessage ? 'mr-2' : 'ml-2'} relative`}>
+                    <div className={`${isOwnMessage ? 'mr-1 md:mr-2' : 'ml-1 md:ml-2'} relative flex-1 min-w-0`}>
                       {!isOwnMessage && activeConversation.type === 'group' && showAvatar && (
                         <div className={`text-xs font-medium mb-1 px-3 ${userColors.text}`}>
                           {message.sender.name || message.sender.username}
@@ -343,13 +343,13 @@ export default function ChatWindow() {
                       )}
                       
                       <div
-                        className={`px-5 py-3 rounded-2xl shadow-lg animate-slideInRight relative transition-all duration-200 hover:shadow-xl ${
+                        className={`px-3 md:px-5 py-2 md:py-3 rounded-2xl shadow-lg animate-slideInRight relative transition-all duration-200 hover:shadow-xl ${
                           isOwnMessage
                             ? 'bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white shadow-emerald-200'
                             : `bg-white text-gray-800 border border-gray-200 shadow-gray-200`
                         }`}
                       >
-                        <p className={`text-sm leading-relaxed ${
+                        <p className={`text-sm leading-relaxed break-words ${
                           isOwnMessage ? 'text-white' : 'text-gray-800'
                         }`}>
                           {message.content}
@@ -382,8 +382,8 @@ export default function ChatWindow() {
 
         {/* Typing indicator */}
         {Object.keys(typingUsers).length > 0 && (
-          <div className="flex justify-start px-6">
-            <div className="bg-gradient-to-r from-white to-emerald-50 rounded-2xl px-6 py-3 shadow-lg border border-emerald-100">
+          <div className="flex justify-start px-2 md:px-6">
+            <div className="bg-gradient-to-r from-white to-emerald-50 rounded-2xl px-4 md:px-6 py-3 shadow-lg border border-emerald-100">
               <div className="flex items-center space-x-3">
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full typing-dot"></div>
@@ -400,35 +400,35 @@ export default function ChatWindow() {
       </div>
 
       {/* Message Input */}
-      <div className="px-6 py-4 border-t border-gray-200 bg-gradient-to-r from-emerald-50 to-teal-50 backdrop-blur-md">
-        <form onSubmit={handleSendMessage} className="flex items-center space-x-4">
+      <div className="px-3 md:px-6 py-3 md:py-4 border-t border-gray-200 bg-gradient-to-r from-emerald-50 to-teal-50 backdrop-blur-md flex-shrink-0">
+        <form onSubmit={handleSendMessage} className="flex items-center space-x-2 md:space-x-4">
           <button
             type="button"
-            className="flex-shrink-0 p-3 text-gray-500 hover:text-emerald-600 hover:bg-emerald-100 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+            className="flex-shrink-0 p-2 md:p-3 text-gray-500 hover:text-emerald-600 hover:bg-emerald-100 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
           >
-            <Paperclip className="h-5 w-5" />
+            <Paperclip className="h-4 md:h-5 w-4 md:w-5" />
           </button>
           
-          <div className="flex-1 relative">
+          <div className="flex-1 relative min-w-0">
             <input
               type="text"
               value={messageInput}
               onChange={handleInputChange}
               placeholder="Type your message..."
-              className="w-full px-5 py-3 border border-emerald-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm hover:shadow-md text-gray-800 placeholder-gray-500"
+              className="w-full px-3 md:px-5 py-2 md:py-3 border border-emerald-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm hover:shadow-md text-gray-800 placeholder-gray-500 text-sm md:text-base"
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-gray-500 hover:text-amber-600 rounded-lg transition-colors"
+              className="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 p-1.5 md:p-2 text-gray-500 hover:text-amber-600 rounded-lg transition-colors"
             >
-              <Smile className="h-5 w-5" />
+              <Smile className="h-4 md:h-5 w-4 md:w-5" />
             </button>
           </div>
 
           <button
             type="submit"
             disabled={!messageInput.trim()}
-            className="flex-shrink-0 p-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white rounded-xl hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="flex-shrink-0 p-2 md:p-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white rounded-xl hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             <Send className="h-5 w-5" />
           </button>

@@ -46,27 +46,27 @@ export default function HomePage() {
       {/* Header */}
       <header className="relative bg-white/90 backdrop-blur-md shadow-lg border-b border-emerald-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-4">
+          <div className="flex justify-between items-center py-4 md:py-6">
+            <div className="flex items-center space-x-2 md:space-x-4">
               <div className="relative">
-                <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 p-3 rounded-2xl shadow-xl">
-                  <MessageCircle className="h-8 w-8 text-white" />
+                <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 p-2 md:p-3 rounded-xl md:rounded-2xl shadow-xl">
+                  <MessageCircle className="h-6 md:h-8 w-6 md:w-8 text-white" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full border-2 border-white animate-pulse shadow-lg"></div>
+                <div className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-3 md:w-5 h-3 md:h-5 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full border-2 border-white animate-pulse shadow-lg"></div>
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                <h1 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
                   Commune
                 </h1>
-                <p className="text-sm text-emerald-600 font-medium">Connect instantly</p>
+                <p className="text-xs md:text-sm text-emerald-600 font-medium hidden sm:block">Connect instantly</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-4">
               <a
                 href="https://github.com/CaliburVolt/Commune"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex items-center space-x-2 text-gray-600 hover:text-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-emerald-50 border border-transparent hover:border-emerald-200"
+                className="hidden lg:flex items-center space-x-2 text-gray-600 hover:text-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-emerald-50 border border-transparent hover:border-emerald-200"
                 title="Star on GitHub"
               >
                 <Star className="h-4 w-4" />
@@ -77,15 +77,16 @@ export default function HomePage() {
               </a>
               <Link
                 href="/login"
-                className="text-gray-700 hover:text-emerald-700 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-emerald-50 border border-transparent hover:border-emerald-200"
+                className="text-gray-700 hover:text-emerald-700 px-3 md:px-6 py-2 md:py-3 rounded-lg md:rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-emerald-50 border border-transparent hover:border-emerald-200"
               >
                 Sign in
               </Link>
               <Link
                 href="/register"
-                className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 text-white px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 flex items-center space-x-2"
+                className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 text-white px-4 md:px-8 py-2 md:py-3 rounded-lg md:rounded-xl text-sm font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 flex items-center space-x-2"
               >
-                <span>Get started</span>
+                <span className="hidden sm:inline">Get started</span>
+                <span className="sm:hidden">Join</span>
               </Link>
             </div>
           </div>
@@ -94,40 +95,40 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <main className="relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-20 pb-8 md:pb-16">
           <div className="text-center">
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight">
               Chat with friends in
               <span className="block bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
                 real-time
               </span>
             </h1>
             
-            <p className="text-xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-600 mb-6 md:mb-10 max-w-3xl mx-auto leading-relaxed px-4">
               Experience seamless communication with our modern chat platform. 
               Connect instantly, share moments, and stay close to the people who matter most.
             </p>
             
-            <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 px-4">
               <Link
                 href="/register"
-                className="group bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 text-white px-10 py-5 rounded-2xl text-lg font-bold transition-all duration-300 shadow-2xl hover:shadow-emerald-500/25 transform hover:-translate-y-2 hover:scale-105 flex items-center space-x-3"
+                className="group bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 text-white px-6 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl text-base md:text-lg font-bold transition-all duration-300 shadow-2xl hover:shadow-emerald-500/25 transform hover:-translate-y-2 hover:scale-105 flex items-center space-x-3 w-full sm:w-auto"
               >
                 <span>Start Chatting Free</span>
-                <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
+                <ArrowRight className="h-5 md:h-6 w-5 md:w-6 group-hover:translate-x-2 transition-transform duration-300" />
               </Link>
               
               <Link
                 href="/login"
-                className="group border-2 border-emerald-300 text-emerald-700 hover:text-emerald-800 hover:border-emerald-400 px-10 py-5 rounded-2xl text-lg font-bold transition-all duration-300 bg-white/80 backdrop-blur-sm hover:bg-white/90 hover:shadow-xl transform hover:-translate-y-1 flex items-center space-x-3"
+                className="group border-2 border-emerald-300 text-emerald-700 hover:text-emerald-800 hover:border-emerald-400 px-6 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl text-base md:text-lg font-bold transition-all duration-300 bg-white/80 backdrop-blur-sm hover:bg-white/90 hover:shadow-xl transform hover:-translate-y-1 flex items-center space-x-3 w-full sm:w-auto"
               >
                 <span>Sign In</span>
-                <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
+                <ArrowRight className="h-5 md:h-6 w-5 md:w-6 group-hover:translate-x-2 transition-transform duration-300" />
               </Link>
             </div>
 
-            <div className="mt-12 text-center">
-              <p className="text-gray-600 text-lg">
+            <div className="mt-8 md:mt-12 text-center px-4">
+              <p className="text-gray-600 text-base md:text-lg">
                 Join thousands of users already experiencing the future of messaging.
               </p>
             </div>
@@ -135,55 +136,55 @@ export default function HomePage() {
         </div>
 
         {/* Features Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 md:mb-4">
               Everything you need for modern communication
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               Built with cutting-edge technology to deliver the best chat experience
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="group bg-white/70 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-emerald-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:border-emerald-200">
-              <div className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 p-4 rounded-xl w-fit mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <MessageCircle className="h-8 w-8 text-white" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="group bg-white/70 backdrop-blur-sm p-6 md:p-8 rounded-xl md:rounded-2xl shadow-xl border border-emerald-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:border-emerald-200">
+              <div className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 p-3 md:p-4 rounded-lg md:rounded-xl w-fit mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <MessageCircle className="h-6 md:h-8 w-6 md:w-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Instant Messaging</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Instant Messaging</h3>
+              <p className="text-gray-600 leading-relaxed text-base md:text-base">
                 Send and receive messages instantly with our lightning-fast real-time chat system powered by WebSockets.
               </p>
-              <div className="mt-6 flex items-center space-x-2 text-emerald-600 font-medium">
-                <CheckCircle className="h-5 w-5" />
+              <div className="mt-4 md:mt-6 flex items-center space-x-2 text-emerald-600 font-medium text-sm md:text-base">
+                <CheckCircle className="h-4 md:h-5 w-4 md:w-5" />
                 <span>Real-time delivery</span>
               </div>
             </div>
             
-            <div className="group bg-white/70 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-teal-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:border-teal-200">
-              <div className="bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 p-4 rounded-xl w-fit mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Users className="h-8 w-8 text-white" />
+            <div className="group bg-white/70 backdrop-blur-sm p-6 md:p-8 rounded-xl md:rounded-2xl shadow-xl border border-teal-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:border-teal-200">
+              <div className="bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 p-3 md:p-4 rounded-lg md:rounded-xl w-fit mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <Users className="h-6 md:h-8 w-6 md:w-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Group Chats</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Group Chats</h3>
+              <p className="text-gray-600 leading-relaxed text-base md:text-base">
                 Create unlimited group conversations and collaborate with multiple friends, family, or colleagues at once.
               </p>
-              <div className="mt-6 flex items-center space-x-2 text-teal-600 font-medium">
-                <CheckCircle className="h-5 w-5" />
+              <div className="mt-4 md:mt-6 flex items-center space-x-2 text-teal-600 font-medium text-sm md:text-base">
+                <CheckCircle className="h-4 md:h-5 w-4 md:w-5" />
                 <span>Unlimited groups</span>
               </div>
             </div>
             
-            <div className="group bg-white/70 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-cyan-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:border-cyan-200">
-              <div className="bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 p-4 rounded-xl w-fit mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Shield className="h-8 w-8 text-white" />
+            <div className="group bg-white/70 backdrop-blur-sm p-6 md:p-8 rounded-xl md:rounded-2xl shadow-xl border border-cyan-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:border-cyan-200">
+              <div className="bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 p-3 md:p-4 rounded-lg md:rounded-xl w-fit mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <Shield className="h-6 md:h-8 w-6 md:w-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Secure & Private</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Secure & Private</h3>
+              <p className="text-gray-600 leading-relaxed text-base md:text-base">
                 Your conversations are protected with enterprise-grade security and advanced encryption protocols.
               </p>
-              <div className="mt-6 flex items-center space-x-2 text-cyan-600 font-medium">
-                <CheckCircle className="h-5 w-5" />
+              <div className="mt-4 md:mt-6 flex items-center space-x-2 text-cyan-600 font-medium text-sm md:text-base">
+                <CheckCircle className="h-4 md:h-5 w-4 md:w-5" />
                 <span>End-to-end encrypted</span>
               </div>
             </div>
@@ -193,20 +194,20 @@ export default function HomePage() {
         {/* CTA Section */}
         <div className="relative bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 overflow-hidden">
           <div className="absolute inset-0 bg-black/10"></div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
             <div className="text-center">
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 md:mb-6 px-4">
                 Ready to revolutionize your communication?
               </h2>
-              <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+              <p className="text-lg md:text-xl text-white/90 mb-8 md:mb-10 max-w-2xl mx-auto px-4">
                 Join thousands of users already experiencing the future of messaging.
               </p>
               <Link
                 href="/register"
-                className="inline-flex items-center space-x-3 bg-white text-emerald-600 hover:text-emerald-700 px-10 py-5 rounded-2xl text-lg font-bold transition-all duration-300 shadow-2xl hover:shadow-white/25 transform hover:-translate-y-2 hover:scale-105"
+                className="inline-flex items-center space-x-3 bg-white text-emerald-600 hover:text-emerald-700 px-6 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl text-lg font-bold transition-all duration-300 shadow-2xl hover:shadow-white/25 transform hover:-translate-y-2 hover:scale-105"
               >
                 <span>Create Free Account</span>
-                <ArrowRight className="h-6 w-6" />
+                <ArrowRight className="h-5 md:h-6 w-5 md:w-6" />
               </Link>
             </div>
           </div>
@@ -215,28 +216,28 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="relative bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <div className="text-center">
-            <div className="flex justify-center items-center mb-6">
-              <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 p-3 rounded-xl">
-                <MessageCircle className="h-8 w-8 text-white" />
+            <div className="flex justify-center items-center mb-4 md:mb-6">
+              <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 p-2 md:p-3 rounded-lg md:rounded-xl">
+                <MessageCircle className="h-6 md:h-8 w-6 md:w-8 text-white" />
               </div>
-              <span className="ml-3 text-2xl font-bold">Commune</span>
+              <span className="ml-3 text-xl md:text-2xl font-bold">Commune</span>
             </div>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+            <p className="text-gray-400 mb-6 md:mb-8 max-w-2xl mx-auto px-4 text-sm md:text-base">
               Connecting people around the world with secure, fast, and reliable messaging.
             </p>
-            <div className="flex justify-center space-x-8 text-sm text-gray-400">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-xs md:text-sm text-gray-400">
               <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
               <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
               <Link href="#" className="hover:text-white transition-colors">Support</Link>
               <Link href="#" className="hover:text-white transition-colors">About</Link>
             </div>
-            <div className="mt-8 pt-8 border-t border-gray-800">
-              <p className="text-gray-400 mb-4">
+            <div className="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-gray-800">
+              <p className="text-gray-400 mb-3 md:mb-4 text-sm md:text-base px-4">
                 © 2025 Commune. All rights reserved. Built with ❤️ for better communication.
               </p>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-xs md:text-sm">
                 Created by{' '}
                 <a 
                   href="https://github.com/CaliburVolt" 

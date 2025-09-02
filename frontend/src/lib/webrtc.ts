@@ -64,9 +64,11 @@ class WebRTCService {
 
     // Handle call accepted
     socketService.onCallAccepted((data) => {
+      console.log('Call accepted:', data);
       this.onCallAcceptedCallback?.(data);
       // Initialize peer connection for the caller
       if (this.isInitiator) {
+        console.log('Initializing peer connection as caller');
         this.initializePeerConnection();
         this.createOffer();
       }
@@ -131,12 +133,15 @@ class WebRTCService {
       this.partnerId = targetUserId;
       this.isInitiator = true;
 
+      console.log('Starting call:', { callId: this.callId, targetUserId, callType });
+
       // Get user media
       this.localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: callType === 'video',
       });
 
+      console.log('Local stream obtained:', this.localStream);
       this.onLocalStreamCallback?.(this.localStream);
 
       // Send call request
@@ -144,6 +149,8 @@ class WebRTCService {
         receiverId: targetUserId, 
         callType: callType 
       });
+
+      console.log('Call request sent to:', targetUserId);
 
       return this.callId;
     } catch (error) {
@@ -256,19 +263,26 @@ class WebRTCService {
 
   // Handle signaling messages
   private async handleSignalingMessage(data: CallData) {
-    if (!this.peerConnection || data.callId !== this.callId) return;
+    console.log('Received signaling message:', data);
+    if (!this.peerConnection || data.callId !== this.callId) {
+      console.log('Ignoring signaling message - no peer connection or wrong call ID');
+      return;
+    }
 
     try {
       this.partnerId = data.senderId;
 
       switch (data.signal.type) {
         case 'offer':
+          console.log('Handling offer');
           await this.handleOffer(data.signal.sdp!);
           break;
         case 'answer':
+          console.log('Handling answer');
           await this.handleAnswer(data.signal.sdp!);
           break;
         case 'ice-candidate':
+          console.log('Handling ICE candidate');
           await this.handleIceCandidate(data.signal.candidate!);
           break;
       }
