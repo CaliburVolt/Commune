@@ -1,32 +1,71 @@
-# Commune
+<div align="center">
 
-A modern real-time chat application with WebRTC voice and video calling capabilities.
+# 🗨️ Commune
 
-## Features
+**Modern Real-time Chat Application with WebRTC Calling**
 
-- **Real-time Messaging** - Instant chat with Socket.IO
-- **Voice & Video Calls** - WebRTC peer-to-peer calling
-- **User Authentication** - JWT with OAuth (Google, GitHub)
-- **Friend System** - Add and manage friends
-- **Responsive Design** - Works on all devices
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io/)
+[![WebRTC](https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white)](https://webrtc.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
-## Tech Stack
+[🚀 **Live Demo**](https://commune-4gqx.onrender.com) · [📖 **Documentation**](#-api-reference) · [🐛 **Report Bug**](https://github.com/CaliburVolt/Commune/issues) · [💡 **Request Feature**](https://github.com/CaliburVolt/Commune/issues)
 
-- **Frontend**: Next.js 15, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express.js, Socket.IO
-- **Database**: PostgreSQL with Prisma ORM
-- **Real-time**: WebRTC, Socket.IO
-- **Authentication**: NextAuth.js, JWT
+![Commune Demo](https://via.placeholder.com/800x400/1a1a1a/ffffff?text=Commune+Chat+App)
 
-## Getting Started
+</div>
 
-### Prerequisites
+---
 
-- Node.js 18+
-- PostgreSQL database
-- pnpm (recommended)
+## 🌟 Features
 
-### Installation
+<table>
+<tr>
+<td width="50%">
+
+### 💬 **Real-time Communication**
+- ⚡ Instant messaging with Socket.IO
+- 🔔 Live typing indicators
+- 📍 Online/offline status
+- 💨 Message delivery status
+
+### 🔐 **Authentication & Security**
+- 🔑 JWT-based authentication
+- 🌐 OAuth integration (Google, GitHub)
+- 🛡️ Secure password hashing
+- 🎫 Session management
+
+</td>
+<td width="50%">
+
+### 📞 **WebRTC Voice & Video Calls**
+- 🎥 Peer-to-peer video calling
+- 🎤 Crystal clear voice calls
+- 🔇 Mute/unmute controls
+- 📵 Call notifications
+
+### 👥 **Social Features**
+- 🤝 Friend system
+- 🔍 User search
+- 📝 Friend requests
+- 👫 Friends management
+
+</td>
+</tr>
+</table>
+
+## 🚀 Quick Start
+
+### 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [pnpm](https://pnpm.io/) (recommended package manager)
+- [PostgreSQL](https://www.postgresql.org/) database
+
+### ⚡ Installation
 
 1. **Clone the repository**
    ```bash
@@ -38,96 +77,282 @@ A modern real-time chat application with WebRTC voice and video calling capabili
    ```bash
    cd backend
    pnpm install
-   
-   # Create .env file
-   DATABASE_URL="postgresql://user:password@localhost:5432/commune"
-   JWT_SECRET="your-secret-key"
+   ```
+
+   Create `.env` file in backend directory:
+   ```env
+   DATABASE_URL="postgresql://username:password@localhost:5432/commune"
+   JWT_SECRET="your-super-secret-jwt-key"
    PORT=5000
-   
-   # Setup database
+   FRONTEND_URL="http://localhost:3000"
+   ```
+
+   Setup database:
+   ```bash
    pnpm run db:generate
    pnpm run db:push
-   
-   # Start backend
    pnpm run dev
    ```
 
 3. **Frontend Setup**
    ```bash
-   cd frontend
+   cd ../frontend
    pnpm install
-   
-   # Create .env.local file
+   ```
+
+   Create `.env.local` file in frontend directory:
+   ```env
    NEXTAUTH_URL=http://localhost:3000
    NEXTAUTH_SECRET=your-nextauth-secret
    NEXT_PUBLIC_API_URL=http://localhost:5000
    NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
    
-   # Add your OAuth credentials
+   # OAuth Providers
    GOOGLE_CLIENT_ID=your-google-client-id
    GOOGLE_CLIENT_SECRET=your-google-client-secret
    GITHUB_CLIENT_ID=your-github-client-id
    GITHUB_CLIENT_SECRET=your-github-client-secret
-   
-   # Start frontend
+   ```
+
+   Start the frontend:
+   ```bash
    pnpm run dev
    ```
 
-4. **Open the application**
+4. **🎉 Open your browser**
    - Frontend: http://localhost:3000
-   - Backend: http://localhost:5000
+   - Backend API: http://localhost:5000
 
-## Deployment
+## 🏗️ Tech Stack
 
-### Backend (Render)
-- Build Command: `pnpm run build`
-- Start Command: `pnpm start`
-- Set environment variables: DATABASE_URL, JWT_SECRET, FRONTEND_URL
+<div align="center">
 
-### Frontend (Vercel)
-- Framework: Next.js
-- Set environment variables: All NEXTAUTH_* and NEXT_PUBLIC_* variables
+### Frontend
+![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+![NextAuth.js](https://img.shields.io/badge/NextAuth.js-000000?style=flat-square&logo=next.js&logoColor=white)
 
-## API Endpoints
+### Backend
+![Node.js](https://img.shields.io/badge/Node.js_22-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=flat-square&logo=socket.io&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
 
-### Authentication
-- `POST /api/auth/register` - Register user
-- `POST /api/auth/login` - Login user
+### Database & Deployment
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+![Render](https://img.shields.io/badge/Render-000000?style=flat-square&logo=render&logoColor=white)
 
-### Users
-- `GET /api/users/search` - Search users
-- `GET /api/users/me` - Get current user
+</div>
 
-### Friends
-- `POST /api/friends/request` - Send friend request
-- `GET /api/friends` - Get friends list
+## 📁 Project Structure
 
-### Chat
-- `POST /api/chat/create` - Create chat
+```
+Commune/
+├── 📂 frontend/                # Next.js Frontend Application
+│   ├── 📂 src/
+│   │   ├── 📂 app/            # App Router Pages
+│   │   │   ├── 🏠 page.tsx    # Home page
+│   │   │   ├── 🔐 login/      # Authentication
+│   │   │   ├── 💬 chat/       # Chat interface
+│   │   │   └── ⚙️ settings/   # User settings
+│   │   ├── 📂 components/     # Reusable Components
+│   │   │   ├── 📞 call/       # WebRTC Components
+│   │   │   ├── 💬 chat/       # Chat Components
+│   │   │   └── 🎨 ui/         # UI Components
+│   │   ├── 📂 lib/            # Utilities & Services
+│   │   │   ├── 🔗 webrtc.ts   # WebRTC Service
+│   │   │   ├── 🔌 socket.ts   # Socket.IO Client
+│   │   │   └── 🌐 api.ts      # API Client
+│   │   └── 📂 types/          # TypeScript Definitions
+│   └── 📄 package.json
+├── 📂 backend/                 # Express.js Backend API
+│   ├── 📂 src/
+│   │   ├── 📂 routes/         # API Routes
+│   │   ├── 📂 socket/         # Socket.IO Handlers
+│   │   ├── 📂 middleware/     # Express Middleware
+│   │   └── 📂 utils/          # Utility Functions
+│   ├── 📂 prisma/             # Database Schema
+│   └── 📄 package.json
+└── 📄 README.md
+```
 
-## WebRTC Implementation
+## 🌐 Deployment
 
-The app uses WebRTC for peer-to-peer calling with Socket.IO for signaling:
+### 🔧 Backend (Render)
 
-1. User initiates call → `call_request` event
-2. Recipient receives notification
-3. Accept/reject call → WebRTC connection established
-4. Direct audio/video stream between users
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com)
 
-## Contributing
+**Settings:**
+- **Build Command:** `pnpm run build`
+- **Start Command:** `pnpm start`
+- **Environment Variables:**
+  ```
+  DATABASE_URL=your-postgresql-url
+  JWT_SECRET=your-jwt-secret
+  FRONTEND_URL=your-vercel-app-url
+  ```
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+### 🎨 Frontend (Vercel)
 
-## License
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/CaliburVolt/Commune)
 
-ISC License
+**Settings:**
+- **Framework Preset:** Next.js
+- **Environment Variables:** All `NEXTAUTH_*` and `NEXT_PUBLIC_*` variables
+
+## 📚 API Reference
+
+<details>
+<summary><strong>🔐 Authentication Endpoints</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/auth/register` | Register new user |
+| `POST` | `/api/auth/login` | User login |
+| `POST` | `/api/auth/change-password` | Change password |
+| `DELETE` | `/api/auth/delete-account` | Delete account |
+
+</details>
+
+<details>
+<summary><strong>👥 User Management</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/users/search` | Search users |
+| `GET` | `/api/users/me` | Get current user |
+| `PUT` | `/api/users/me` | Update profile |
+
+</details>
+
+<details>
+<summary><strong>🤝 Friend System</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/friends/request` | Send friend request |
+| `GET` | `/api/friends` | Get friends list |
+| `POST` | `/api/friends/request/:id/accept` | Accept request |
+| `POST` | `/api/friends/request/:id/reject` | Reject request |
+
+</details>
+
+<details>
+<summary><strong>💬 Chat System</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/chat/create` | Create/get chat |
+| **Socket Events** | | |
+| `join_chat` | Join chat room |
+| `send_message` | Send message |
+| `receive_message` | Receive message |
+
+</details>
+
+<details>
+<summary><strong>📞 WebRTC Calling</strong></summary>
+
+| Socket Event | Description |
+|--------------|-------------|
+| `call_request` | Initiate call |
+| `accept_call` | Accept incoming call |
+| `reject_call` | Reject call |
+| `end_call` | End active call |
+| `webrtc_signal` | Exchange signaling data |
+
+</details>
+
+## 🔧 WebRTC Implementation
+
+```mermaid
+sequenceDiagram
+    participant A as User A
+    participant S as Socket Server
+    participant B as User B
+    
+    A->>S: call_request
+    S->>B: 📞 Incoming call notification
+    B->>S: accept_call
+    S->>A: ✅ Call accepted
+    
+    Note over A,B: 🔗 WebRTC Peer Connection Setup
+    A<-->S: 📡 ICE candidates exchange
+    S<-->B: 📡 ICE candidates exchange
+    
+    Note over A,B: 🎥 Direct P2P Audio/Video Stream
+```
+
+## 🤝 Contributing
+
+We love contributions! Here's how you can help:
+
+<details>
+<summary><strong>🚀 Getting Started</strong></summary>
+
+1. **🍴 Fork the Project**
+2. **🌿 Create your Feature Branch** (`git checkout -b feature/AmazingFeature`)
+3. **✅ Commit your Changes** (`git commit -m 'Add some AmazingFeature'`)
+4. **📤 Push to the Branch** (`git push origin feature/AmazingFeature`)
+5. **🔀 Open a Pull Request**
+
+</details>
+
+<details>
+<summary><strong>📋 Development Guidelines</strong></summary>
+
+- Follow TypeScript best practices
+- Write meaningful commit messages
+- Add tests for new features
+- Update documentation as needed
+- Follow the existing code style
+
+</details>
+
+## 📊 Project Status
+
+![GitHub last commit](https://img.shields.io/github/last-commit/CaliburVolt/Commune?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/CaliburVolt/Commune?style=flat-square)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/CaliburVolt/Commune?style=flat-square)
+![GitHub stars](https://img.shields.io/github/stars/CaliburVolt/Commune?style=flat-square)
+
+## 🔮 Roadmap
+
+- [ ] 📁 **File Sharing** - Send documents and images
+- [ ] 🔐 **End-to-End Encryption** - Secure messaging
+- [ ] 👥 **Group Video Calls** - Multi-user conferences
+- [ ] 🔔 **Push Notifications** - Real-time alerts
+- [ ] 📱 **Mobile App** - React Native version
+- [ ] 🌙 **Dark Mode** - Theme customization
+- [ ] 🌍 **Internationalization** - Multi-language support
+
+## 📄 License
+
+This project is licensed under the **ISC License** - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [WebRTC](https://webrtc.org/) for peer-to-peer communication
+- [Socket.IO](https://socket.io/) for real-time features
+- [Next.js](https://nextjs.org/) for the amazing React framework
+- [Prisma](https://www.prisma.io/) for database management
+- [Tailwind CSS](https://tailwindcss.com/) for styling
 
 ---
 
-**Live Demo**: https://commune-4gqx.onrender.comStack Chat Application with WebRTC Calling
+<div align="center">
+
+### 💝 Support the Project
+
+If you find this project helpful, please consider giving it a ⭐!
+
+**Made with ❤️ by [CaliburVolt](https://github.com/CaliburVolt)**
+
+[![GitHub followers](https://img.shields.io/github/followers/CaliburVolt?style=social)](https://github.com/CaliburVolt)
+
+</div>Stack Chat Application with WebRTC Calling
 
 <div align="center">
 
