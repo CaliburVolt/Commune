@@ -15,6 +15,7 @@ interface ChatContextType {
   loading: boolean;
   setActiveConversation: (conversation: Conversation | null) => void;
   sendMessage: (content: string, type?: 'TEXT' | 'IMAGE' | 'FILE') => void;
+  deleteMessage: (messageId: string) => void;
   loadMessages: (conversation: Conversation) => Promise<void>;
   startTyping: () => void;
   stopTyping: () => void;
@@ -69,6 +70,14 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     // Listen for message sent confirmation
     socketService.onMessageSent((message: Message) => {
       setMessages((prev) => [...prev, message]);
+    });
+
+    // Listen for message deletion
+    socketService.onMessageDeleted((data) => {
+      setMessages((prev) => prev.filter(msg => msg.id !== data.messageId));
+      
+      // Refresh conversations to update last message if needed
+      refreshConversations();
     });
 
     // Listen for typing indicators
@@ -151,6 +160,10 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     socketService.sendMessage(messageData);
   };
 
+  const deleteMessage = (messageId: string) => {
+    socketService.deleteMessage(messageId);
+  };
+
   const startTyping = () => {
     if (!activeConversation) return;
 
@@ -188,6 +201,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
       }
     },
     sendMessage,
+    deleteMessage,
     loadMessages,
     startTyping,
     stopTyping,

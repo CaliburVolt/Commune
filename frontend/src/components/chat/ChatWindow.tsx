@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@/contexts/ChatContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWebRTC } from '@/hooks/useWebRTC';
-import { Send, Smile, Paperclip, MoreVertical, Phone, Video } from 'lucide-react';
+import { Send, Smile, Paperclip, MoreVertical, Phone, Video, Trash2, X } from 'lucide-react';
 import IncomingCallModal from '@/components/call/IncomingCallModal';
 import ActiveCallInterface from '@/components/call/ActiveCallInterface';
 
@@ -14,6 +14,7 @@ export default function ChatWindow() {
     activeConversation, 
     messages, 
     sendMessage, 
+    deleteMessage,
     startTyping, 
     stopTyping,
     typingUsers 
@@ -38,6 +39,7 @@ export default function ChatWindow() {
 
   const [messageInput, setMessageInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -96,6 +98,11 @@ export default function ChatWindow() {
     if (targetUser) {
       startCall(targetUser.id, targetUser.name || targetUser.username, 'video');
     }
+  };
+
+  const handleDeleteMessage = (messageId: string) => {
+    deleteMessage(messageId);
+    setShowDeleteConfirm(null);
   };
 
   const formatTime = (date: Date) => {
@@ -243,7 +250,7 @@ export default function ChatWindow() {
                   key={message.id}
                   className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} group`}
                 >
-                  <div className={`max-w-xs lg:max-w-md flex ${isOwnMessage ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2`}>
+                  <div className={`max-w-xs lg:max-w-md flex ${isOwnMessage ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2 relative`}>
                     {/* Avatar */}
                     {!isOwnMessage && (
                       <div className="w-8 h-8 mb-1">
@@ -257,7 +264,7 @@ export default function ChatWindow() {
                       </div>
                     )}
 
-                    <div className={`${isOwnMessage ? 'mr-2' : 'ml-2'}`}>
+                    <div className={`${isOwnMessage ? 'mr-2' : 'ml-2'} relative`}>
                       {!isOwnMessage && activeConversation.type === 'group' && showAvatar && (
                         <div className="text-xs text-gray-500 mb-1 px-3">
                           {message.sender.name || message.sender.username}
@@ -265,13 +272,24 @@ export default function ChatWindow() {
                       )}
                       
                       <div
-                        className={`px-4 py-3 rounded-2xl shadow-sm animate-slideInRight ${
+                        className={`px-4 py-3 rounded-2xl shadow-sm animate-slideInRight relative ${
                           isOwnMessage
                             ? 'bg-gradient-to-r from-violet-500 to-blue-500 text-white'
                             : 'bg-white text-gray-900 border border-gray-200'
                         }`}
                       >
                         <p className="text-sm leading-relaxed">{message.content}</p>
+                        
+                        {/* Delete button for own messages */}
+                        {isOwnMessage && (
+                          <button
+                            onClick={() => setShowDeleteConfirm(message.id)}
+                            className="absolute -top-2 -left-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-600 shadow-lg"
+                            title="Delete message"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </button>
+                        )}
                       </div>
                       
                       <div className={`text-xs text-gray-500 mt-1 px-3 opacity-0 group-hover:opacity-100 transition-opacity ${
@@ -361,6 +379,42 @@ export default function ChatWindow() {
         isMuted={isMuted}
         isVideoEnabled={isVideoEnabled}
       />
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Delete Message</h3>
+              <button
+                onClick={() => setShowDeleteConfirm(null)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this message? This action cannot be undone.
+            </p>
+            
+            <div className="flex space-x-3">
+              <button
+                onClick={() => setShowDeleteConfirm(null)}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDeleteMessage(showDeleteConfirm)}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

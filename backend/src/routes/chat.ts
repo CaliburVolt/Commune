@@ -322,4 +322,114 @@ router.get('/conversations', authenticateToken, async (req: AuthRequest, res) =>
   }
 });
 
+// Delete conversation (all messages between two users or leave group)
+router.delete('/conversation/:conversationId', authenticateToken, async (req: AuthRequest, res) => {
+  try {
+    const { conversationId } = req.params;
+    const userId = req.user!.id;
+
+    // Parse conversation ID to determine type
+    if (conversationId.startsWith('direct_')) {
+      // Extract user IDs from conversation ID
+      const parts = conversationId.split('_');
+      if (parts.length !== 3) {
+        return res.status(400).json({ error: 'Invalid conversation ID format' });
+      }
+
+      const [, userId1, userId2] = parts;
+      const otherUserId = userId === userId1 ? userId2 : userId1;
+
+      // Delete all messages between the two users
+      const deletedMessages = await prisma.message.deleteMany({
+        where: {
+          OR: [
+            { senderId: userId, receiverId: otherUserId, groupId: null },
+            { senderId: otherUserId, receiverId: userId, groupId: null },
+          ]
+        }
+      });
+
+      res.json({ 
+        message: 'Conversation deleted successfully',
+        deletedMessagesCount: deletedMessages.count
+      });
+
+    } else if (conversationId.startsWith('group_')) {
+      // Extract group ID
+      const groupId = conversationId.replace('group_', '');
+
+      // Check if user is a member of the group
+      const membership = await prisma.groupMember.findUnique({
+        where: {
+          userId_groupId: {
+            userId,
+            groupId,
+          }
+        }
+      });
+
+      if (!membership) {
+        return res.status(403).json({ error: 'You are not a member of this group' });
+      }
+
+      // Remove user from group (leave group)
+      await prisma.groupMember.delete({
+        where: {
+          userId_groupId: {
+            userId,
+            groupId,
+          }
+        }
+      });
+
+      res.json({ message: 'Left group successfully' });
+
+    } else {
+      return res.status(400).json({ error: 'Invalid conversation ID format' });
+    }
+
+  } catch (error) {
+    console.error('Delete conversation error:', error);
+    res.status(500).json({ error: 'Failed to delete conversation' });
+  }
+});
+
+// Delete a specific message
+router.delete('/message/:messageId', authenticateToken, async (req: AuthRequest, res) => {
+  try {
+    const { messageId } = req.params;
+    const userId = req.user!.id;
+
+    // Find the message
+    const message = await prisma.message.findUnique({
+      where: { id: messageId },
+      include: {
+        sender: {
+          select: { id: true }
+        }
+      }
+    });
+
+    if (!message) {
+      return res.status(404).json({ error: 'Message not found' });
+    }
+
+    // Check if the user is the sender of the message
+    if (message.senderId !== userId) {
+      return res.status(403).json({ error: 'You can only delete your own messages' });
+    }
+
+    // Delete the message
+    await prisma.message.delete({
+      where: { id: messageId }
+    });
+
+    res.json({ message: 'Message deleted successfully' });
+
+  } catch (error) {
+    console.error('Delete message error:', error);
+    res.status(500).json({ error: 'Failed to delete message' });
+  }
+});
+
 export default router;

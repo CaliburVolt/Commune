@@ -57,6 +57,14 @@ class SocketService {
     this.socket?.on('message_sent', callback);
   }
 
+  deleteMessage(messageId: string) {
+    this.socket?.emit('delete_message', { messageId });
+  }
+
+  onMessageDeleted(callback: (data: { messageId: string }) => void) {
+    this.socket?.on('message_deleted', callback);
+  }
+
   // Group methods
   joinGroup(groupId: string) {
     this.socket?.emit('join_group', { groupId });

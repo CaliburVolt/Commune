@@ -125,6 +125,57 @@ export const initializeSocket = (io: Server, prisma: PrismaClient) => {
       }
     });
 
+    // Handle message deletion
+    socket.on('delete_message', async (data) => {
+      try {
+        const { messageId } = data;
+
+        if (!socket.userId) return;
+
+        // Find and verify message ownership
+        const message = await prisma.message.findUnique({
+          where: { id: messageId },
+          select: { 
+            id: true, 
+            senderId: true, 
+            receiverId: true, 
+            groupId: true 
+          }
+        });
+
+        if (!message) {
+          socket.emit('error', { message: 'Message not found' });
+          return;
+        }
+
+        if (message.senderId !== socket.userId) {
+          socket.emit('error', { message: 'You can only delete your own messages' });
+          return;
+        }
+
+        // Delete the message
+        await prisma.message.delete({
+          where: { id: messageId }
+        });
+
+        // Notify all participants about message deletion
+        if (message.groupId) {
+          // Notify group members
+          socket.to(`group_${message.groupId}`).emit('message_deleted', { messageId });
+        } else if (message.receiverId) {
+          // Notify the receiver
+          socket.to(`user_${message.receiverId}`).emit('message_deleted', { messageId });
+        }
+
+        // Confirm deletion to sender
+        socket.emit('message_deleted', { messageId });
+
+      } catch (error) {
+        console.error('Delete message error:', error);
+        socket.emit('error', { message: 'Failed to delete message' });
+      }
+    });
+
     // Handle joining groups
     socket.on('join_group', async (data) => {
       try {

@@ -14,15 +14,18 @@ import {
   LogOut,
   Search,
   Plus,
-  MoreHorizontal
+  MoreHorizontal,
+  Trash2,
+  X
 } from 'lucide-react';
 
 export default function ChatSidebar() {
   const { user, logout } = useAuth();
-  const { conversations, activeConversation, setActiveConversation } = useChat();
+  const { conversations, activeConversation, setActiveConversation, refreshConversations } = useChat();
   const [activeTab, setActiveTab] = useState<'chats' | 'friends' | 'groups'>('chats');
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserSearch, setShowUserSearch] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const router = useRouter();
 
   const filteredConversations = conversations.filter(conv => {
@@ -97,6 +100,41 @@ export default function ChatSidebar() {
     } catch (error) {
       console.error('Error starting chat:', error);
       alert('Error starting conversation. Please check your connection and try again.');
+    }
+  };
+
+  const handleDeleteConversation = async (conversationId: string) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      
+      if (!token) {
+        alert('Please log in to delete conversations');
+        return;
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/chat/conversation/${conversationId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        // If the deleted conversation was active, clear it
+        if (activeConversation?.id === conversationId) {
+          setActiveConversation(null);
+        }
+        
+        // Refresh conversations list
+        refreshConversations();
+        setShowDeleteConfirm(null);
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error || 'Failed to delete conversation');
+      }
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+      alert('Error deleting conversation. Please try again.');
     }
   };
 
@@ -203,80 +241,100 @@ export default function ChatSidebar() {
                   : conversation.user?.name || conversation.user?.username;
 
                 return (
-                  <button
+                  <div
                     key={conversation.id}
-                    onClick={() => setActiveConversation(conversation)}
-                    className={`w-full p-4 rounded-xl text-left transition-all duration-200 mb-2 hover:shadow-md ${
+                    className={`relative group p-4 rounded-xl transition-all duration-200 mb-2 hover:shadow-md ${
                       isActive
                         ? 'bg-gradient-to-r from-violet-500 to-blue-500 text-white shadow-lg'
                         : 'hover:bg-gray-50 border border-transparent hover:border-gray-200'
                     }`}
                   >
-                    <div className="flex items-center space-x-3">
-                      <div className="relative flex-shrink-0">
-                        {conversation.type === 'group' ? (
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-md ${
-                            isActive 
-                              ? 'bg-white/20 text-white' 
-                              : 'bg-gradient-to-br from-violet-500 to-blue-500 text-white'
-                          }`}>
-                            <span className="font-bold">
-                              {conversationName?.charAt(0)}
-                            </span>
-                          </div>
-                        ) : (
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-md ${
-                            isActive 
-                              ? 'bg-white/20 text-white' 
-                              : 'bg-gradient-to-br from-green-500 to-teal-500 text-white'
-                          }`}>
-                            <span className="font-bold">
-                              {conversationName?.charAt(0)}
-                            </span>
-                          </div>
-                        )}
-                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <h3 className={`font-semibold truncate ${
-                            isActive ? 'text-white' : 'text-gray-900 dark:text-white'
-                          }`}>
-                            {conversationName}
-                          </h3>
-                          {conversation.lastMessage && (
-                            <span className={`text-xs ${
-                              isActive ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
+                    <button
+                      onClick={() => setActiveConversation(conversation)}
+                      className="w-full text-left"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div className="relative flex-shrink-0">
+                          {conversation.type === 'group' ? (
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-md ${
+                              isActive 
+                                ? 'bg-white/20 text-white' 
+                                : 'bg-gradient-to-br from-violet-500 to-blue-500 text-white'
                             }`}>
-                              {formatLastMessageTime(conversation.lastMessage.createdAt)}
-                            </span>
+                              <span className="font-bold">
+                                {conversationName?.charAt(0)}
+                              </span>
+                            </div>
+                          ) : (
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-md ${
+                              isActive 
+                                ? 'bg-white/20 text-white' 
+                                : 'bg-gradient-to-br from-green-500 to-teal-500 text-white'
+                            }`}>
+                              <span className="font-bold">
+                                {conversationName?.charAt(0)}
+                              </span>
+                            </div>
                           )}
+                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
                         </div>
                         
-                        {conversation.lastMessage && (
-                          <p className={`text-sm truncate mt-1 ${
-                            isActive ? 'text-white/80' : 'text-gray-600 dark:text-gray-300'
-                          }`}>
-                            {conversation.lastMessage.content}
-                          </p>
-                        )}
-                        
-                        <div className="flex items-center justify-between mt-1">
-                          <span className={`text-xs ${
-                            isActive ? 'text-white/60' : 'text-gray-500 dark:text-gray-400'
-                          }`}>
-                            {conversation.type === 'group' ? 'Group' : 'Direct'}
-                          </span>
-                          {(conversation.unreadCount ?? 0) > 0 && (
-                            <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
-                              {conversation.unreadCount ?? 0}
-                            </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <h3 className={`font-semibold truncate ${
+                              isActive ? 'text-white' : 'text-gray-900 dark:text-white'
+                            }`}>
+                              {conversationName}
+                            </h3>
+                            {conversation.lastMessage && (
+                              <span className={`text-xs ${
+                                isActive ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
+                              }`}>
+                                {formatLastMessageTime(conversation.lastMessage.createdAt)}
+                              </span>
+                            )}
+                          </div>
+                          
+                          {conversation.lastMessage && (
+                            <p className={`text-sm truncate mt-1 ${
+                              isActive ? 'text-white/80' : 'text-gray-600 dark:text-gray-300'
+                            }`}>
+                              {conversation.lastMessage.content}
+                            </p>
                           )}
+                          
+                          <div className="flex items-center justify-between mt-1">
+                            <span className={`text-xs ${
+                              isActive ? 'text-white/60' : 'text-gray-500 dark:text-gray-400'
+                            }`}>
+                              {conversation.type === 'group' ? 'Group' : 'Direct'}
+                            </span>
+                            {(conversation.unreadCount ?? 0) > 0 && (
+                              <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
+                                {conversation.unreadCount ?? 0}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </button>
+                    </button>
+
+                    {/* Delete button - shows on hover */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowDeleteConfirm(conversation.id);
+                      }}
+                      className={`absolute top-2 right-2 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 ${
+                        isActive 
+                          ? 'text-white/70 hover:text-white hover:bg-white/20' 
+                          : 'text-gray-400 hover:text-red-600 hover:bg-red-50'
+                      }`}
+                      title="Delete conversation"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
                 );
               })
             )}
@@ -349,6 +407,42 @@ export default function ChatSidebar() {
         onClose={() => setShowUserSearch(false)}
         onStartChat={handleStartChatWithUser}
       />
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Delete Conversation</h3>
+              <button
+                onClick={() => setShowDeleteConfirm(null)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this conversation? This action cannot be undone and all messages will be permanently deleted.
+            </p>
+            
+            <div className="flex space-x-3">
+              <button
+                onClick={() => setShowDeleteConfirm(null)}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDeleteConversation(showDeleteConfirm)}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
