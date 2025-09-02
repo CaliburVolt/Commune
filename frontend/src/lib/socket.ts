@@ -104,6 +104,60 @@ class SocketService {
     this.socket?.on('friend_online', callback);
   }
 
+  // WebRTC Call methods
+  sendCallRequest(data: { receiverId: string; callType: 'audio' | 'video' }) {
+    this.socket?.emit('call_request', data);
+  }
+
+  onCallRequest(callback: (data: { 
+    callId: string;
+    senderId: string;
+    senderName: string;
+    callType: 'audio' | 'video';
+  }) => void) {
+    this.socket?.on('call_request', callback);
+  }
+
+  acceptCall(data: { callId: string }) {
+    this.socket?.emit('accept_call', data);
+  }
+
+  onCallAccepted(callback: (data: { callId: string; userId: string }) => void) {
+    this.socket?.on('call_accepted', callback);
+  }
+
+  rejectCall(data: { callId: string; reason?: string }) {
+    this.socket?.emit('reject_call', data);
+  }
+
+  onCallRejected(callback: (data: { callId: string; reason?: string }) => void) {
+    this.socket?.on('call_rejected', callback);
+  }
+
+  endCall(data: { callId: string }) {
+    this.socket?.emit('end_call', data);
+  }
+
+  onCallEnded(callback: (data: { callId: string; reason?: string }) => void) {
+    this.socket?.on('call_ended', callback);
+  }
+
+  sendWebRTCSignal(data: { 
+    callId: string;
+    receiverId: string;
+    signal: any;
+  }) {
+    this.socket?.emit('webrtc_signal', data);
+  }
+
+  onWebRTCSignal(callback: (data: {
+    callId: string;
+    senderId: string;
+    signal: any;
+  }) => void) {
+    this.socket?.on('webrtc_signal', callback);
+  }
+
   // Remove listeners
   removeAllListeners() {
     this.socket?.removeAllListeners();

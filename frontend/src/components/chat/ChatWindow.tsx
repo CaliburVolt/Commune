@@ -3,7 +3,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@/contexts/ChatContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useWebRTC } from '@/hooks/useWebRTC';
 import { Send, Smile, Paperclip, MoreVertical, Phone, Video } from 'lucide-react';
+import IncomingCallModal from '@/components/call/IncomingCallModal';
+import ActiveCallInterface from '@/components/call/ActiveCallInterface';
 
 export default function ChatWindow() {
   const { user } = useAuth();
@@ -15,6 +18,24 @@ export default function ChatWindow() {
     stopTyping,
     typingUsers 
   } = useChat();
+
+  // WebRTC integration
+  const {
+    isInCall,
+    incomingCall,
+    activeCall,
+    localStream,
+    remoteStream,
+    isMuted,
+    isVideoEnabled,
+    startCall,
+    acceptCall,
+    rejectCall,
+    endCall,
+    toggleMute,
+    toggleVideo,
+  } = useWebRTC();
+
   const [messageInput, setMessageInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -57,6 +78,23 @@ export default function ChatWindow() {
     if (isTyping) {
       setIsTyping(false);
       stopTyping();
+    }
+  };
+
+  // Call handlers
+  const handleAudioCall = () => {
+    if (!activeConversation || activeConversation.type === 'group' || isInCall) return;
+    const targetUser = activeConversation.user;
+    if (targetUser) {
+      startCall(targetUser.id, targetUser.name || targetUser.username, 'audio');
+    }
+  };
+
+  const handleVideoCall = () => {
+    if (!activeConversation || activeConversation.type === 'group' || isInCall) return;
+    const targetUser = activeConversation.user;
+    if (targetUser) {
+      startCall(targetUser.id, targetUser.name || targetUser.username, 'video');
     }
   };
 
@@ -152,12 +190,31 @@ export default function ChatWindow() {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <button className="p-3 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200">
-              <Phone className="h-5 w-5" />
-            </button>
-            <button className="p-3 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200">
-              <Video className="h-5 w-5" />
-            </button>
+            {/* Only show call buttons for direct messages (not groups) */}
+            {activeConversation.type !== 'group' && (
+              <>
+                <button 
+                  onClick={handleAudioCall}
+                  disabled={isInCall}
+                  className={`p-3 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200 ${
+                    isInCall ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  title="Audio Call"
+                >
+                  <Phone className="h-5 w-5" />
+                </button>
+                <button 
+                  onClick={handleVideoCall}
+                  disabled={isInCall}
+                  className={`p-3 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200 ${
+                    isInCall ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  title="Video Call"
+                >
+                  <Video className="h-5 w-5" />
+                </button>
+              </>
+            )}
             <button className="p-3 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200">
               <MoreVertical className="h-5 w-5" />
             </button>
@@ -284,6 +341,26 @@ export default function ChatWindow() {
           </button>
         </form>
       </div>
+
+      {/* Call Components */}
+      <IncomingCallModal
+        isOpen={!!incomingCall}
+        callData={incomingCall}
+        onAccept={acceptCall}
+        onReject={rejectCall}
+      />
+
+      <ActiveCallInterface
+        isOpen={isInCall && !!activeCall}
+        callData={activeCall}
+        localStream={localStream}
+        remoteStream={remoteStream}
+        onEndCall={endCall}
+        onToggleMute={toggleMute}
+        onToggleVideo={toggleVideo}
+        isMuted={isMuted}
+        isVideoEnabled={isVideoEnabled}
+      />
     </div>
   );
 }
