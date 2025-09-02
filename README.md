@@ -1,4 +1,186 @@
-# Commune - Full Stack Chat Application with WebRTC Calling
+# Commune - Real-time Chat & WebRTC Calling App
+
+<div align="center">
+
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![WebRTC](https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white)
+
+A modern full-stack chat application with **real-time messaging** and **WebRTC voice/video calling**.
+
+[🚀 Live Demo](https://commune-4gqx.onrender.com) • [📖 Documentation](#api-reference) • [🔧 Setup](#quick-start)
+
+</div>
+
+## ✨ Features
+
+- 💬 **Real-time Chat** - Instant messaging with Socket.IO
+- 📞 **Voice/Video Calls** - WebRTC peer-to-peer calling
+- 🔐 **Authentication** - JWT + OAuth (Google, GitHub)
+- 👥 **Friend System** - Send/accept friend requests
+- 🔍 **User Search** - Find and connect with users
+- 📱 **Responsive UI** - Modern design with Tailwind CSS
+- ⚡ **Real-time Updates** - Live typing indicators & status
+
+## 🏗️ Tech Stack
+
+**Frontend:** Next.js 15, TypeScript, Tailwind CSS, NextAuth.js  
+**Backend:** Node.js, Express.js, Socket.IO, Prisma ORM  
+**Database:** PostgreSQL (Neon)  
+**Real-time:** WebRTC, Socket.IO  
+**Deployment:** Vercel (Frontend) + Render (Backend)
+
+## 📁 Project Structure
+
+```
+commune/
+├── frontend/          # Next.js App
+│   ├── src/app/       # Pages (login, chat, settings)
+│   ├── src/components/# UI Components
+│   │   ├── call/      # WebRTC Components
+│   │   └── chat/      # Chat Components
+│   └── src/lib/       # Utils (webrtc, socket, api)
+└── backend/           # Express.js API
+    ├── src/routes/    # API Routes
+    ├── src/socket/    # Socket.IO Handlers
+    └── prisma/        # Database Schema
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database (recommend [Neon](https://neon.tech))
+- pnpm (recommended)
+
+### 1. Backend Setup
+
+```bash
+cd backend
+pnpm install
+
+# Create .env file
+DATABASE_URL="postgresql://user:pass@host:port/db"
+JWT_SECRET="your-jwt-secret"
+PORT=5000
+FRONTEND_URL="http://localhost:3000"
+
+# Setup database
+pnpm run db:generate
+pnpm run db:push
+
+# Start server
+pnpm run dev
+```
+
+### 2. Frontend Setup
+
+```bash
+cd frontend
+pnpm install
+
+# Create .env.local file
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret
+NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
+
+# OAuth credentials
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+
+# Start app
+pnpm run dev
+```
+
+Open `http://localhost:3000` and start chatting!
+
+## 🌐 Deployment
+
+### Backend (Render)
+- **Build Command:** `pnpm run build`
+- **Start Command:** `pnpm start`
+- **Environment Variables:** DATABASE_URL, JWT_SECRET, FRONTEND_URL
+
+### Frontend (Vercel)
+- **Framework:** Next.js (auto-detected)
+- **Environment Variables:** All NEXTAUTH_* and NEXT_PUBLIC_* vars
+
+**Production URLs:**
+- Frontend: Auto-deployed via Vercel
+- Backend: https://commune-4gqx.onrender.com
+
+## 📡 API Reference
+
+### Authentication
+- `POST /api/auth/register` - Register user
+- `POST /api/auth/login` - Login user
+- `POST /api/auth/change-password` - Change password
+
+### Users & Friends
+- `GET /api/users/search` - Search users
+- `POST /api/friends/request` - Send friend request
+- `GET /api/friends` - Get friends list
+
+### Chat
+- `POST /api/chat/create` - Create chat
+- Socket events: `send_message`, `receive_message`, `join_chat`
+
+### WebRTC Calling
+- Socket events: `call_request`, `accept_call`, `reject_call`, `webrtc_signal`
+
+## 🔧 WebRTC Implementation
+
+```mermaid
+sequenceDiagram
+    participant A as User A
+    participant S as Socket Server
+    participant B as User B
+    
+    A->>S: call_request
+    S->>B: incoming call
+    B->>S: accept_call
+    Note over A,B: WebRTC P2P Connection
+    A<->>B: Direct audio/video stream
+```
+
+**Key Components:**
+- `webrtc.ts` - WebRTC service
+- `IncomingCallModal.tsx` - Call notifications
+- `ActiveCallInterface.tsx` - Call controls
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
+
+## 📝 License
+
+ISC License - see [LICENSE](LICENSE) file
+
+## 🔮 Roadmap
+
+- [ ] File sharing
+- [ ] Message encryption
+- [ ] Group video calls
+- [ ] Push notifications
+- [ ] Mobile app
+
+---
+
+<div align="center">
+
+**Built with ❤️ by [CaliburVolt](https://github.com/CaliburVolt)**
+
+⭐ Star this repo if you found it helpful!
+
+</div>Stack Chat Application with WebRTC Calling
 
 <div align="center">
 
