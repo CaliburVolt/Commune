@@ -1,12 +1,13 @@
-# Commune - Full Stack Chat Application
+# Commune - Full Stack Chat Application with WebRTC Calling
 
-A modern, real-time chat application with authentication, private messaging, and group chats. Built with Next.js frontend and Express.js backend.
+A modern, real-time chat application with authentication, private messaging, group chats, and WebRTC voice/video calling. Built with Next.js frontend and Express.js backend.
 
 ## 🚀 Features
 
 ### Authentication
 - User registration and login
 - JWT-based authentication
+- OAuth integration (Google, GitHub)
 - Secure password hashing
 - Session management
 
@@ -16,6 +17,13 @@ A modern, real-time chat application with authentication, private messaging, and
 - Group chat functionality
 - Typing indicators
 - Online/offline status
+
+### WebRTC Voice/Video Calling
+- Peer-to-peer voice and video calls
+- Real-time call signaling via Socket.IO
+- Call controls (mute, video toggle, speaker)
+- Incoming call notifications
+- Call duration tracking
 
 ### Friend System
 - Send and receive friend requests
@@ -38,10 +46,12 @@ A modern, real-time chat application with authentication, private messaging, and
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Next.js 15** - React framework
+- **Next.js 15** - React framework with App Router
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Styling
+- **NextAuth.js** - Authentication management
 - **Socket.IO Client** - Real-time communication
+- **WebRTC API** - Peer-to-peer calling
 - **Axios** - HTTP client
 - **Lucide React** - Icons
 - **React Context** - State management
@@ -67,13 +77,21 @@ chat-app/
 │   │   │   ├── login/       # Login page
 │   │   │   ├── register/    # Registration page
 │   │   │   ├── chat/        # Main chat interface
+│   │   │   ├── settings/    # User settings
 │   │   │   └── layout.tsx   # Root layout
+│   │   ├── components/      # Reusable UI components
+│   │   │   ├── call/        # WebRTC calling components
+│   │   │   │   ├── IncomingCallModal.tsx
+│   │   │   │   └── ActiveCallInterface.tsx
+│   │   │   ├── chat/        # Chat-related components
+│   │   │   └── ui/          # Basic UI components
 │   │   ├── contexts/        # React contexts
 │   │   │   ├── AuthContext.tsx
 │   │   │   └── ChatContext.tsx
 │   │   ├── lib/             # Utilities
 │   │   │   ├── api.ts       # API client
-│   │   │   └── socket.ts    # Socket.IO client
+│   │   │   ├── socket.ts    # Socket.IO client
+│   │   │   └── webrtc.ts    # WebRTC service
 │   │   └── types/           # TypeScript types
 │   ├── package.json
 │   └── README.md
@@ -165,6 +183,12 @@ chat-app/
    NEXTAUTH_SECRET=your-nextauth-secret
    NEXT_PUBLIC_API_URL=http://localhost:5000
    NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
+   
+   # OAuth Providers
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   GITHUB_CLIENT_ID=your-github-client-id
+   GITHUB_CLIENT_SECRET=your-github-client-secret
    ```
 
 4. **Start development server:**
@@ -188,8 +212,9 @@ chat-app/
    - `FRONTEND_URL` - Your Vercel app URL
    - `PORT` - 5000
 
-3. **Build command:** `pnpm build`
+3. **Build command:** `pnpm run build`
 4. **Start command:** `pnpm start`
+5. **Production URL:** `https://commune-4gqx.onrender.com`
 
 ### Frontend (Vercel)
 
@@ -197,8 +222,9 @@ chat-app/
 2. **Set environment variables:**
    - `NEXTAUTH_URL` - Your Vercel app URL
    - `NEXTAUTH_SECRET` - Secure random string
-   - `NEXT_PUBLIC_API_URL` - Your Render backend URL
-   - `NEXT_PUBLIC_SOCKET_URL` - Your Render backend URL
+   - `NEXT_PUBLIC_API_URL` - Your Render backend URL (`https://commune-4gqx.onrender.com`)
+   - `NEXT_PUBLIC_SOCKET_URL` - Your Render backend URL (`https://commune-4gqx.onrender.com`)
+   - OAuth credentials for Google and GitHub
 
 3. **Deploy automatically on push to main branch**
 
@@ -213,7 +239,9 @@ chat-app/
 ### Authentication Endpoints
 - `POST /api/auth/register` - Register user
 - `POST /api/auth/login` - Login user
-- `POST /api/auth/logout` - Logout user
+- `POST /api/auth/change-password` - Change password
+- `DELETE /api/auth/delete-account` - Delete account
+- OAuth routes for Google and GitHub
 
 ### User Endpoints
 - `GET /api/users/me` - Get current user
@@ -221,21 +249,53 @@ chat-app/
 - `GET /api/users/search` - Search users
 
 ### Chat Endpoints
-- `POST /api/chat/send` - Send message
+- `POST /api/chat/create` - Create/get chat with user
 - `GET /api/chat/messages` - Get messages
 - `GET /api/chat/conversations` - Get conversations
-
-### Group Endpoints
-- `POST /api/groups` - Create group
-- `GET /api/groups` - Get user groups
-- `POST /api/groups/:id/members` - Add member
 
 ### Friend Endpoints
 - `POST /api/friends/request` - Send friend request
 - `GET /api/friends/requests/received` - Get received requests
+- `GET /api/friends/requests/sent` - Get sent requests
+- `GET /api/friends` - Get friends list
 - `POST /api/friends/request/:id/accept` - Accept request
+- `POST /api/friends/request/:id/reject` - Reject request
 
-## 🔧 Development Scripts
+## � Socket.IO Events
+
+### Connection & Chat
+- `join_chat` - Join a chat room
+- `send_message` - Send a message
+- `receive_message` - Receive a message
+- `user_connected` - User comes online
+- `user_disconnected` - User goes offline
+
+### WebRTC Calling
+- `call_request` - Initiate a call
+- `accept_call` - Accept incoming call
+- `reject_call` - Reject incoming call
+- `end_call` - End active call
+- `webrtc_signal` - Exchange WebRTC signaling data (ICE candidates, offers, answers)
+
+## 📱 WebRTC Implementation
+
+The application uses WebRTC for peer-to-peer voice and video calls:
+
+### Call Flow
+1. **Initiate Call**: User clicks call button → sends `call_request` via Socket.IO
+2. **Signaling**: Socket.IO server relays call request to recipient
+3. **Accept/Reject**: Recipient can accept or reject the call
+4. **WebRTC Setup**: If accepted, WebRTC peer connection is established
+5. **Media Stream**: Audio/video streams are shared directly between peers
+6. **ICE Candidates**: Network information exchanged via Socket.IO signaling
+
+### Key Components
+- `webrtc.ts` - WebRTC service with connection management
+- `IncomingCallModal.tsx` - Handle incoming call notifications
+- `ActiveCallInterface.tsx` - Call controls and UI during active calls
+- Socket.IO events for signaling coordination
+
+## �🔧 Development Scripts
 
 ### Backend
 - `pnpm dev` - Start development server
@@ -266,19 +326,20 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🐛 Known Issues
 
 - File upload functionality is prepared but not fully implemented
-- Voice/video calling features are not included
 - Message encryption is not implemented (planned for future release)
+- Group chat features are defined in schema but UI not fully implemented
 
 ## 🔮 Future Features
 
 - [ ] File and image sharing
-- [ ] Voice and video calls
 - [ ] Message encryption
 - [ ] Push notifications
 - [ ] Message reactions and replies
 - [ ] User presence indicators
 - [ ] Dark mode
 - [ ] Mobile app (React Native)
+- [ ] Screen sharing in calls
+- [ ] Group video calls
 
 ## 📞 Support
 
@@ -287,7 +348,10 @@ If you have any questions or need help with setup, please create an issue on Git
 ---
 
 **Happy Chatting! 💬**
-#   C o m m u n e  
- #   C o m m u n e  
- #   C o m m u n e  
+#   C o m m u n e 
+ 
+ #   C o m m u n e 
+ 
+ #   C o m m u n e 
+ 
  
