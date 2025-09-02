@@ -52,7 +52,7 @@ export function useWebRTC() {
     });
 
     // Handle call accepted
-    webRTCService.onCallAccepted((data: { callId: string }) => {
+    webRTCService.onCallAccepted((_data: { callId: string }) => {
       setCallState(prev => ({
         ...prev,
         incomingCall: null,
@@ -65,7 +65,7 @@ export function useWebRTC() {
     });
 
     // Handle call rejected
-    webRTCService.onCallRejected((data: { callId: string }) => {
+    webRTCService.onCallRejected((_data: { callId: string }) => {
       setCallState(prev => ({
         ...prev,
         incomingCall: null,
@@ -78,7 +78,7 @@ export function useWebRTC() {
     });
 
     // Handle call ended
-    webRTCService.onCallEnded((data: { callId: string }) => {
+    webRTCService.onCallEnded((_data: { callId: string }) => {
       setCallState(prev => ({
         ...prev,
         incomingCall: null,

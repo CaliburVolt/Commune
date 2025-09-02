@@ -33,7 +33,7 @@ export default function IncomingCallModal({
         audio.play().catch(() => {
           // Silently fail if audio can't be played
         });
-      } catch (error) {
+      } catch {
         // Audio not available, that's fine
       }
       setRingTone(audio);
