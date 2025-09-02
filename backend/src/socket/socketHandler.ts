@@ -211,6 +211,69 @@ export const initializeSocket = (io: Server, prisma: PrismaClient) => {
       }
     });
 
+    // WebRTC Call Events
+    socket.on('call_request', async (data) => {
+      try {
+        const { receiverId, callType } = data;
+        
+        if (!socket.userId) return;
+
+        // Get sender info
+        const sender = await prisma.user.findUnique({
+          where: { id: socket.userId },
+          select: { id: true, name: true, username: true }
+        });
+
+        if (!sender) return;
+
+        const callId = `call_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        // Send call request to receiver
+        socket.to(`user_${receiverId}`).emit('call_request', {
+          callId,
+          senderId: socket.userId,
+          senderName: sender.name || sender.username,
+          callType,
+        });
+      } catch (error) {
+        console.error('Call request error:', error);
+      }
+    });
+
+    socket.on('accept_call', (data) => {
+      const { callId } = data;
+      
+      // Notify all participants that call was accepted
+      socket.broadcast.emit('call_accepted', { callId, userId: socket.userId });
+    });
+
+    socket.on('reject_call', (data) => {
+      const { callId, reason } = data;
+      
+      // Notify all participants that call was rejected
+      socket.broadcast.emit('call_rejected', { callId, reason });
+    });
+
+    socket.on('end_call', (data) => {
+      const { callId } = data;
+      
+      // Notify all participants that call ended
+      socket.broadcast.emit('call_ended', { callId });
+    });
+
+    socket.on('webrtc_signal', (data) => {
+      const { callId, receiverId, signal } = data;
+      
+      if (!socket.userId) return;
+
+      // Forward WebRTC signaling data to the specific receiver
+      socket.to(`user_${receiverId}`).emit('webrtc_signal', {
+        callId,
+        senderId: socket.userId,
+        signal,
+      });
+    });
+
     // Handle disconnect
     socket.on('disconnect', async () => {
       console.log(`User ${socket.userId} disconnected`);
