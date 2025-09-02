@@ -131,11 +131,11 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-blue-50 to-cyan-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       {/* Animated background elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-violet-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
         <div className="absolute top-40 left-40 w-80 h-80 bg-cyan-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
       </div>
 
@@ -168,7 +168,7 @@ export default function SettingsPage() {
                       onClick={() => setActiveTab(tab.id as TabId)}
                       className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
                         activeTab === tab.id
-                          ? 'bg-violet-600 text-white shadow-lg'
+                          ? 'bg-emerald-600 text-white shadow-lg'
                           : 'text-gray-700 hover:bg-gray-100'
                       }`}
                     >
@@ -211,7 +211,7 @@ export default function SettingsPage() {
                     </div>
                     <button
                       onClick={() => router.push('/profile')}
-                      className="mt-4 bg-violet-600 hover:bg-violet-700 text-white px-6 py-2 rounded-lg transition-colors"
+                      className="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg transition-colors"
                     >
                       Edit Profile
                     </button>
@@ -228,7 +228,7 @@ export default function SettingsPage() {
                             type={showPasswords.current ? 'text' : 'password'}
                             value={passwordForm.currentPassword}
                             onChange={(e) => setPasswordForm(prev => ({ ...prev, currentPassword: e.target.value }))}
-                            className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                            className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                           />
                           <button
                             type="button"
@@ -247,7 +247,7 @@ export default function SettingsPage() {
                             type={showPasswords.new ? 'text' : 'password'}
                             value={passwordForm.newPassword}
                             onChange={(e) => setPasswordForm(prev => ({ ...prev, newPassword: e.target.value }))}
-                            className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                            className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                           />
                           <button
                             type="button"
@@ -266,7 +266,7 @@ export default function SettingsPage() {
                             type={showPasswords.confirm ? 'text' : 'password'}
                             value={passwordForm.confirmPassword}
                             onChange={(e) => setPasswordForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                            className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                            className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                           />
                           <button
                             type="button"
@@ -281,7 +281,7 @@ export default function SettingsPage() {
                       <button
                         onClick={handlePasswordChange}
                         disabled={loading || !passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword}
-                        className="flex items-center space-x-2 bg-violet-600 hover:bg-violet-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg transition-colors"
+                        className="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg transition-colors"
                       >
                         {loading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
@@ -309,7 +309,7 @@ export default function SettingsPage() {
                       <select
                         value={privacy.profileVisibility}
                         onChange={(e) => setPrivacy(prev => ({ ...prev, profileVisibility: e.target.value }))}
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500"
+                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                       >
                         <option value="everyone">Everyone</option>
                         <option value="friends">Friends Only</option>
@@ -325,7 +325,7 @@ export default function SettingsPage() {
                       <select
                         value={privacy.messageRequests}
                         onChange={(e) => setPrivacy(prev => ({ ...prev, messageRequests: e.target.value }))}
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500"
+                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                       >
                         <option value="everyone">Everyone</option>
                         <option value="friends">Friends Only</option>
@@ -340,7 +340,7 @@ export default function SettingsPage() {
                       <button
                         onClick={() => setPrivacy(prev => ({ ...prev, lastSeen: !prev.lastSeen }))}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          privacy.lastSeen ? 'bg-violet-600' : 'bg-gray-300'
+                          privacy.lastSeen ? 'bg-emerald-600' : 'bg-gray-300'
                         }`}
                       >
                         <span
@@ -359,7 +359,7 @@ export default function SettingsPage() {
                       <button
                         onClick={() => setPrivacy(prev => ({ ...prev, readReceipts: !prev.readReceipts }))}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          privacy.readReceipts ? 'bg-violet-600' : 'bg-gray-300'
+                          privacy.readReceipts ? 'bg-emerald-600' : 'bg-gray-300'
                         }`}
                       >
                         <span
@@ -404,7 +404,7 @@ export default function SettingsPage() {
                           <button
                             onClick={() => setNotifications(prev => ({ ...prev, [key]: !value }))}
                             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                              value ? 'bg-violet-600' : 'bg-gray-300'
+                              value ? 'bg-emerald-600' : 'bg-gray-300'
                             }`}
                           >
                             <span
@@ -437,7 +437,7 @@ export default function SettingsPage() {
                       <button
                         onClick={toggleTheme}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          isDark ? 'bg-violet-600' : 'bg-gray-300'
+                          isDark ? 'bg-emerald-600' : 'bg-gray-300'
                         }`}
                       >
                         <span

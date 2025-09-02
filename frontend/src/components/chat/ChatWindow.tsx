@@ -127,6 +127,75 @@ export default function ChatWindow() {
     }
   };
 
+  // Enhanced color schemes for different users
+  const getUserColors = (userId: string, isGroup: boolean = false) => {
+    const colors = [
+      {
+        bg: 'from-emerald-500 to-teal-500',
+        text: 'text-emerald-700',
+        avatar: 'from-emerald-400 to-teal-400',
+        message: 'from-emerald-100 to-teal-100',
+        messageText: 'text-gray-800'
+      },
+      {
+        bg: 'from-cyan-500 to-blue-500',
+        text: 'text-cyan-700',
+        avatar: 'from-cyan-400 to-blue-400',
+        message: 'from-cyan-100 to-blue-100',
+        messageText: 'text-gray-800'
+      },
+      {
+        bg: 'from-rose-500 to-pink-500',
+        text: 'text-rose-700',
+        avatar: 'from-rose-400 to-pink-400',
+        message: 'from-rose-100 to-pink-100',
+        messageText: 'text-gray-800'
+      },
+      {
+        bg: 'from-amber-500 to-orange-500',
+        text: 'text-amber-700',
+        avatar: 'from-amber-400 to-orange-400',
+        message: 'from-amber-100 to-orange-100',
+        messageText: 'text-gray-800'
+      },
+      {
+        bg: 'from-emerald-500 via-teal-500 to-cyan-500',
+        text: 'text-emerald-700',
+        avatar: 'from-emerald-400 via-teal-400 to-cyan-400',
+        message: 'from-emerald-100 via-teal-100 to-cyan-100',
+        messageText: 'text-gray-800'
+      },
+      {
+        bg: 'from-indigo-500 to-blue-500',
+        text: 'text-indigo-700',
+        avatar: 'from-indigo-400 to-blue-400',
+        message: 'from-indigo-100 to-blue-100',
+        messageText: 'text-gray-800'
+      },
+      {
+        bg: 'from-teal-500 to-cyan-500',
+        text: 'text-teal-700',
+        avatar: 'from-teal-400 to-cyan-400',
+        message: 'from-teal-100 to-cyan-100',
+        messageText: 'text-gray-800'
+      },
+      {
+        bg: 'from-lime-500 to-green-500',
+        text: 'text-lime-700',
+        avatar: 'from-lime-400 to-green-400',
+        message: 'from-lime-100 to-green-100',
+        messageText: 'text-gray-800'
+      }
+    ];
+
+    const hash = userId.split('').reduce((a, b) => {
+      a = ((a << 5) - a) + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+    
+    return colors[Math.abs(hash) % colors.length];
+  };
+
   const groupMessagesByDate = (messages: any[]) => {
     const grouped: { [key: string]: any[] } = {};
     
@@ -143,10 +212,10 @@ export default function ChatWindow() {
 
   if (!activeConversation) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50">
+      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
         <div className="text-center p-8">
-          <div className="mx-auto w-32 h-32 bg-gradient-to-br from-violet-100 to-blue-100 rounded-full flex items-center justify-center mb-6 shadow-lg">
-            <Send className="h-16 w-16 text-violet-500" />
+          <div className="mx-auto w-32 h-32 bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 rounded-full flex items-center justify-center mb-6 shadow-xl">
+            <Send className="h-16 w-16 text-emerald-600" />
           </div>
           <h3 className="text-2xl font-bold text-gray-900 mb-3">
             Ready to start chatting?
@@ -168,31 +237,32 @@ export default function ChatWindow() {
   return (
     <div className="flex-1 flex flex-col bg-white border-l border-gray-200">
       {/* Chat Header */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-white/80 backdrop-blur-md">
+      <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 backdrop-blur-md">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="relative">
               {activeConversation.type === 'group' ? (
-                <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-lg">
-                    {conversationName?.charAt(0)}
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
+                  <span className="text-white font-bold text-lg drop-shadow-sm">
+                    {conversationName?.charAt(0)?.toUpperCase()}
                   </span>
                 </div>
               ) : (
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-lg">
-                    {conversationName?.charAt(0)}
+                <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
+                  <span className="text-white font-bold text-lg drop-shadow-sm">
+                    {conversationName?.charAt(0)?.toUpperCase()}
                   </span>
                 </div>
               )}
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-gradient-to-r from-emerald-400 to-green-400 rounded-full border-2 border-white shadow-sm"></div>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-xl font-bold bg-gradient-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent">
                 {conversationName}
               </h2>
-              <p className="text-sm text-green-600 font-medium">
-                {activeConversation.type === 'group' ? 'Group chat' : 'Online'}
+              <p className="text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent flex items-center space-x-1">
+                <span className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-green-400 rounded-full animate-pulse"></span>
+                <span>{activeConversation.type === 'group' ? 'Group chat' : 'Online'}</span>
               </p>
             </div>
           </div>
@@ -203,7 +273,7 @@ export default function ChatWindow() {
                 <button 
                   onClick={handleAudioCall}
                   disabled={isInCall}
-                  className={`p-3 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200 ${
+                  className={`p-3 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md ${
                     isInCall ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   title="Audio Call"
@@ -213,7 +283,7 @@ export default function ChatWindow() {
                 <button 
                   onClick={handleVideoCall}
                   disabled={isInCall}
-                  className={`p-3 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200 ${
+                  className={`p-3 text-gray-500 hover:text-cyan-600 hover:bg-cyan-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md ${
                     isInCall ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   title="Video Call"
@@ -222,7 +292,7 @@ export default function ChatWindow() {
                 </button>
               </>
             )}
-            <button className="p-3 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200">
+            <button className="p-3 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md">
               <MoreVertical className="h-5 w-5" />
             </button>
           </div>
@@ -230,13 +300,13 @@ export default function ChatWindow() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-br from-gray-50 to-blue-50">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
         {Object.entries(groupedMessages).map(([date, dayMessages]) => (
           <div key={date}>
             {/* Date separator */}
             <div className="flex items-center justify-center my-6">
-              <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-gray-200">
-                <span className="text-xs text-gray-600 font-medium">{date}</span>
+              <div className="bg-white/90 backdrop-blur-sm px-6 py-2 rounded-full shadow-md border border-gray-200/50">
+                <span className="text-xs text-gray-600 font-semibold tracking-wide">{date}</span>
               </div>
             </div>
 
@@ -244,6 +314,7 @@ export default function ChatWindow() {
             {dayMessages.map((message, index) => {
               const isOwnMessage = message.sender.id === user?.id;
               const showAvatar = !isOwnMessage && (index === 0 || dayMessages[index - 1]?.sender.id !== message.sender.id);
+              const userColors = getUserColors(message.sender.id, activeConversation.type === 'group');
               
               return (
                 <div
@@ -255,8 +326,8 @@ export default function ChatWindow() {
                     {!isOwnMessage && (
                       <div className="w-8 h-8 mb-1">
                         {showAvatar ? (
-                          <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-blue-500 rounded-full flex items-center justify-center shadow-md">
-                            <span className="text-white text-xs font-medium">
+                          <div className={`w-8 h-8 bg-gradient-to-br ${userColors.avatar} rounded-full flex items-center justify-center shadow-lg ring-1 ring-white`}>
+                            <span className="text-white text-xs font-bold drop-shadow-sm">
                               {message.sender.name?.charAt(0) || message.sender.username?.charAt(0)}
                             </span>
                           </div>
@@ -266,25 +337,29 @@ export default function ChatWindow() {
 
                     <div className={`${isOwnMessage ? 'mr-2' : 'ml-2'} relative`}>
                       {!isOwnMessage && activeConversation.type === 'group' && showAvatar && (
-                        <div className="text-xs text-gray-500 mb-1 px-3">
+                        <div className={`text-xs font-medium mb-1 px-3 ${userColors.text}`}>
                           {message.sender.name || message.sender.username}
                         </div>
                       )}
                       
                       <div
-                        className={`px-4 py-3 rounded-2xl shadow-sm animate-slideInRight relative ${
+                        className={`px-5 py-3 rounded-2xl shadow-lg animate-slideInRight relative transition-all duration-200 hover:shadow-xl ${
                           isOwnMessage
-                            ? 'bg-gradient-to-r from-violet-500 to-blue-500 text-white'
-                            : 'bg-white text-gray-900 border border-gray-200'
+                            ? 'bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white shadow-emerald-200'
+                            : `bg-white text-gray-800 border border-gray-200 shadow-gray-200`
                         }`}
                       >
-                        <p className="text-sm leading-relaxed">{message.content}</p>
+                        <p className={`text-sm leading-relaxed ${
+                          isOwnMessage ? 'text-white' : 'text-gray-800'
+                        }`}>
+                          {message.content}
+                        </p>
                         
                         {/* Delete button for own messages */}
                         {isOwnMessage && (
                           <button
                             onClick={() => setShowDeleteConfirm(message.id)}
-                            className="absolute -top-2 -left-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-600 shadow-lg"
+                            className="absolute -top-3 -right-3 p-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:from-red-600 hover:to-pink-600 shadow-lg hover:shadow-red-300 transform hover:scale-110 z-10"
                             title="Delete message"
                           >
                             <Trash2 className="h-3 w-3" />
@@ -292,7 +367,7 @@ export default function ChatWindow() {
                         )}
                       </div>
                       
-                      <div className={`text-xs text-gray-500 mt-1 px-3 opacity-0 group-hover:opacity-100 transition-opacity ${
+                      <div className={`text-xs text-gray-500 mt-2 px-3 opacity-0 group-hover:opacity-100 transition-opacity font-medium ${
                         isOwnMessage ? 'text-right' : 'text-left'
                       }`}>
                         {formatTime(message.createdAt)}
@@ -308,14 +383,14 @@ export default function ChatWindow() {
         {/* Typing indicator */}
         {Object.keys(typingUsers).length > 0 && (
           <div className="flex justify-start px-6">
-            <div className="bg-white rounded-2xl px-6 py-3 shadow-sm border border-gray-200">
-              <div className="flex items-center space-x-2">
+            <div className="bg-gradient-to-r from-white to-emerald-50 rounded-2xl px-6 py-3 shadow-lg border border-emerald-100">
+              <div className="flex items-center space-x-3">
                 <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                  <div className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full typing-dot"></div>
+                  <div className="w-2 h-2 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full typing-dot"></div>
+                  <div className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full typing-dot"></div>
                 </div>
-                <span className="text-xs text-gray-500">Someone is typing...</span>
+                <span className="text-xs text-emerald-700 font-medium">Someone is typing...</span>
               </div>
             </div>
           </div>
@@ -325,11 +400,11 @@ export default function ChatWindow() {
       </div>
 
       {/* Message Input */}
-      <div className="px-6 py-4 border-t border-gray-200 bg-white/80 backdrop-blur-md">
+      <div className="px-6 py-4 border-t border-gray-200 bg-gradient-to-r from-emerald-50 to-teal-50 backdrop-blur-md">
         <form onSubmit={handleSendMessage} className="flex items-center space-x-4">
           <button
             type="button"
-            className="flex-shrink-0 p-3 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-xl transition-all duration-200"
+            className="flex-shrink-0 p-3 text-gray-500 hover:text-emerald-600 hover:bg-emerald-100 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
           >
             <Paperclip className="h-5 w-5" />
           </button>
@@ -340,11 +415,11 @@ export default function ChatWindow() {
               value={messageInput}
               onChange={handleInputChange}
               placeholder="Type your message..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-white/70 backdrop-blur-sm"
+              className="w-full px-5 py-3 border border-emerald-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm hover:shadow-md text-gray-800 placeholder-gray-500"
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-gray-400 hover:text-violet-600 rounded-lg transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-gray-500 hover:text-amber-600 rounded-lg transition-colors"
             >
               <Smile className="h-5 w-5" />
             </button>
@@ -353,7 +428,7 @@ export default function ChatWindow() {
           <button
             type="submit"
             disabled={!messageInput.trim()}
-            className="flex-shrink-0 p-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-xl hover:from-violet-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="flex-shrink-0 p-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white rounded-xl hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             <Send className="h-5 w-5" />
           </button>

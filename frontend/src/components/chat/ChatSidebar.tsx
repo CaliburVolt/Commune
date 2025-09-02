@@ -16,7 +16,8 @@ import {
   Plus,
   MoreHorizontal,
   Trash2,
-  X
+  X,
+  Star
 } from 'lucide-react';
 
 export default function ChatSidebar() {
@@ -141,26 +142,35 @@ export default function ChatSidebar() {
   return (
     <div className="w-80 bg-white border-r border-gray-200 flex flex-col h-full">
       {/* Header */}
-      <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-violet-50 to-blue-50">
+      <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-emerald-100 via-teal-100 to-cyan-100">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-3">
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-violet-600 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 rounded-full flex items-center justify-center shadow-lg">
                 <MessageCircle className="h-6 w-6 text-white" />
               </div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-white animate-pulse"></div>
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
                 Commune
               </h1>
-              <p className="text-xs text-gray-500">Connected</p>
+              <p className="text-xs text-emerald-600">Connected</p>
             </div>
           </div>
           <div className="flex items-center space-x-2">
+            <a
+              href="https://github.com/CaliburVolt/Commune"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-gray-500 hover:text-emerald-600 hover:bg-emerald-200 rounded-lg transition-all duration-200 group"
+              title="Star on GitHub"
+            >
+              <Star className="h-5 w-5 group-hover:scale-110 transition-transform" />
+            </a>
             <button 
               onClick={() => router.push('/settings')}
-              className="p-2 text-gray-400 hover:text-violet-600 hover:bg-violet-100 rounded-lg transition-all duration-200"
+              className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-100 rounded-lg transition-all duration-200"
             >
               <Settings className="h-5 w-5" />
             </button>
@@ -175,19 +185,19 @@ export default function ChatSidebar() {
             placeholder="Search conversations..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-white/70 backdrop-blur-sm text-gray-900"
+            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 bg-white/70 backdrop-blur-sm text-gray-900"
           />
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex border-b border-gray-200 bg-gray-50">
+      <div className="flex border-b border-gray-200 bg-gradient-to-r from-emerald-100 to-teal-100">
         <button
           onClick={() => setActiveTab('chats')}
           className={`flex-1 py-4 px-3 text-sm font-medium transition-all duration-200 ${
             activeTab === 'chats'
-              ? 'text-violet-600 border-b-2 border-violet-600 bg-white'
-              : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+              ? 'text-emerald-600 border-b-2 border-emerald-600 bg-white'
+              : 'text-gray-500 hover:text-emerald-700 hover:bg-emerald-100'
           }`}
         >
           <div className="flex items-center justify-center space-x-2">
@@ -199,8 +209,8 @@ export default function ChatSidebar() {
           onClick={() => setActiveTab('friends')}
           className={`flex-1 py-4 px-3 text-sm font-medium transition-all duration-200 ${
             activeTab === 'friends'
-              ? 'text-violet-600 border-b-2 border-violet-600 bg-white'
-              : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+              ? 'text-emerald-600 border-b-2 border-emerald-600 bg-white'
+              : 'text-gray-500 hover:text-emerald-700 hover:bg-emerald-100'
           }`}
         >
           <div className="flex items-center justify-center space-x-2">
@@ -212,8 +222,8 @@ export default function ChatSidebar() {
           onClick={() => setActiveTab('groups')}
           className={`flex-1 py-4 px-3 text-sm font-medium transition-all duration-200 ${
             activeTab === 'groups'
-              ? 'text-violet-600 border-b-2 border-violet-600 bg-white'
-              : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+              ? 'text-emerald-600 border-b-2 border-emerald-600 bg-white'
+              : 'text-gray-500 hover:text-emerald-700 hover:bg-emerald-100'
           }`}
         >
           <div className="flex items-center justify-center space-x-2">
@@ -224,7 +234,7 @@ export default function ChatSidebar() {
       </div>
 
       {/* Conversations List */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pb-16">
         {activeTab === 'chats' && (
           <div className="p-2">
             {filteredConversations.length === 0 ? (
@@ -245,7 +255,7 @@ export default function ChatSidebar() {
                     key={conversation.id}
                     className={`relative group p-4 rounded-xl transition-all duration-200 mb-2 hover:shadow-md ${
                       isActive
-                        ? 'bg-gradient-to-r from-violet-500 to-blue-500 text-white shadow-lg'
+                        ? 'bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white shadow-lg'
                         : 'hover:bg-gray-50 border border-transparent hover:border-gray-200'
                     }`}
                   >
@@ -259,7 +269,7 @@ export default function ChatSidebar() {
                             <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-md ${
                               isActive 
                                 ? 'bg-white/20 text-white' 
-                                : 'bg-gradient-to-br from-violet-500 to-blue-500 text-white'
+                                : 'bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white'
                             }`}>
                               <span className="font-bold">
                                 {conversationName?.charAt(0)}
@@ -282,13 +292,13 @@ export default function ChatSidebar() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
                             <h3 className={`font-semibold truncate ${
-                              isActive ? 'text-white' : 'text-gray-900 dark:text-white'
+                              isActive ? 'text-white' : 'text-gray-900'
                             }`}>
                               {conversationName}
                             </h3>
                             {conversation.lastMessage && (
                               <span className={`text-xs ${
-                                isActive ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
+                                isActive ? 'text-white/70' : 'text-gray-500'
                               }`}>
                                 {formatLastMessageTime(conversation.lastMessage.createdAt)}
                               </span>
@@ -297,7 +307,7 @@ export default function ChatSidebar() {
                           
                           {conversation.lastMessage && (
                             <p className={`text-sm truncate mt-1 ${
-                              isActive ? 'text-white/80' : 'text-gray-600 dark:text-gray-300'
+                              isActive ? 'text-white/80' : 'text-gray-600'
                             }`}>
                               {conversation.lastMessage.content}
                             </p>
@@ -305,7 +315,7 @@ export default function ChatSidebar() {
                           
                           <div className="flex items-center justify-between mt-1">
                             <span className={`text-xs ${
-                              isActive ? 'text-white/60' : 'text-gray-500 dark:text-gray-400'
+                              isActive ? 'text-white/60' : 'text-gray-500'
                             }`}>
                               {conversation.type === 'group' ? 'Group' : 'Direct'}
                             </span>
@@ -354,36 +364,36 @@ export default function ChatSidebar() {
       </div>
 
       {/* User Profile */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gradient-to-r from-violet-50 to-blue-50 dark:from-gray-800 dark:to-gray-700">
+      <div className="p-4 border-t border-gray-200 bg-gradient-to-r from-emerald-100 via-teal-100 to-cyan-100">
         <div className="flex items-center space-x-3">
           <button 
             onClick={() => router.push('/profile')}
-            className="flex items-center space-x-3 flex-1 hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-lg p-2 transition-all duration-200"
+            className="flex items-center space-x-3 flex-1 hover:bg-white/70 rounded-xl p-3 transition-all duration-200 hover:shadow-md bg-white/40 backdrop-blur-sm border border-white/30"
           >
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
+                <span className="text-white font-bold drop-shadow-sm">
                   {user?.name?.charAt(0) || user?.username?.charAt(0)}
                 </span>
               </div>
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-white shadow-sm"></div>
             </div>
             
             <div className="flex-1 min-w-0 text-left">
-              <h3 className="font-semibold text-gray-900 dark:text-white truncate">
+              <h3 className="font-semibold text-gray-900 truncate">
                 {user?.name || user?.username}
               </h3>
-              <p className="text-sm text-green-600 dark:text-green-400 font-medium">Online</p>
+              <p className="text-sm text-emerald-600 font-medium">Online</p>
             </div>
           </button>
           
           <div className="flex items-center space-x-1">
-            <button className="p-2 text-gray-400 hover:text-violet-600 hover:bg-violet-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200">
+            <button className="p-2 text-gray-500 hover:text-emerald-600 hover:bg-white/50 rounded-lg transition-all duration-200 hover:shadow-sm">
               <MoreHorizontal className="h-4 w-4" />
             </button>
             <button 
               onClick={handleLogout}
-              className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200"
+              className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 hover:shadow-sm"
             >
               <LogOut className="h-4 w-4" />
             </button>
@@ -392,12 +402,13 @@ export default function ChatSidebar() {
       </div>
 
       {/* New Chat Button */}
-      <div className="absolute bottom-24 right-6">
+      <div className="absolute bottom-20 right-4 z-10">
         <button 
           onClick={() => setShowUserSearch(true)}
-          className="w-14 h-14 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center justify-center"
+          className="w-12 h-12 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 text-white rounded-full shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300 flex items-center justify-center ring-2 ring-white"
+          title="Start new chat"
         >
-          <Plus className="h-6 w-6" />
+          <Plus className="h-5 w-5 drop-shadow-sm" />
         </button>
       </div>
 

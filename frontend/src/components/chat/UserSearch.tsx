@@ -129,7 +129,7 @@ export default function UserSearch({ isOpen, onClose, onStartChat }: UserSearchP
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 max-h-[80vh] overflow-hidden">
         {/* Header */}
-        <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-violet-50 to-blue-50">
+        <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-900">Find People</h2>
             <button
@@ -148,7 +148,7 @@ export default function UserSearch({ isOpen, onClose, onStartChat }: UserSearchP
               placeholder="Search by name or username..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200 bg-white/70 backdrop-blur-sm text-gray-900"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 bg-white/70 backdrop-blur-sm text-gray-900"
               autoFocus
             />
           </div>
@@ -158,7 +158,7 @@ export default function UserSearch({ isOpen, onClose, onStartChat }: UserSearchP
         <div className="p-4 max-h-96 overflow-y-auto">
           {loading && (
             <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-2 border-violet-200 border-t-violet-600 mx-auto"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-2 border-emerald-200 border-t-emerald-600 mx-auto"></div>
               <p className="mt-2 text-gray-500 dark:text-gray-400">Searching...</p>
             </div>
           )}
@@ -185,7 +185,7 @@ export default function UserSearch({ isOpen, onClose, onStartChat }: UserSearchP
             >
               <div className="flex items-center space-x-3">
                 <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg">
                     <span className="text-white font-bold">
                       {user.name.charAt(0)}
                     </span>
@@ -206,14 +206,14 @@ export default function UserSearch({ isOpen, onClose, onStartChat }: UserSearchP
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => handleStartChat(user.id)}
-                  className="p-2 text-violet-600 hover:text-violet-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 rounded-lg transition-all duration-200"
+                  className="p-2 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 rounded-lg transition-all duration-200"
                   title="Start chat"
                 >
                   <MessageCircle className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => sendFriendRequest(user.id)}
-                  className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition-all duration-200"
+                  className="p-2 text-teal-600 hover:text-teal-700 hover:bg-teal-100 dark:hover:bg-teal-900/30 rounded-lg transition-all duration-200"
                   title="Send friend request"
                 >
                   <UserPlus className="h-5 w-5" />
