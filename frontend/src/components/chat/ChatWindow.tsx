@@ -40,8 +40,45 @@ export default function ChatWindow() {
   const [messageInput, setMessageInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const emojiPickerRef = useRef<HTMLDivElement>(null);
+
+  // Common emojis for the picker
+  const emojis = [
+    '😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃',
+    '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '☺️', '😚',
+    '😙', '🥲', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭',
+    '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄',
+    '😬', '🤥', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢',
+    '🤮', '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎',
+    '🤓', '🧐', '😕', '😟', '🙁', '☹️', '😮', '😯', '😲', '😳',
+    '🥺', '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖',
+    '😣', '😞', '😓', '😩', '😫', '🥱', '😤', '😡', '😠', '🤬',
+    '👍', '👎', '👌', '🤏', '✌️', '🤞', '🤟', '🤘', '🤙', '👈',
+    '👉', '👆', '🖕', '👇', '☝️', '👏', '🙌', '👐', '🤲', '🤝',
+    '🙏', '✍️', '💪', '🦾', '🦿', '🦵', '🦶', '👂', '🦻', '👃',
+    '❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔',
+    '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '☮️'
+  ];
+
+  // Close emoji picker when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target as Node)) {
+        setShowEmojiPicker(false);
+      }
+    };
+
+    if (showEmojiPicker) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showEmojiPicker]);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -103,6 +140,21 @@ export default function ChatWindow() {
   const handleDeleteMessage = (messageId: string) => {
     deleteMessage(messageId);
     setShowDeleteConfirm(null);
+  };
+
+  const handleEmojiSelect = (emoji: string) => {
+    setMessageInput(prev => prev + emoji);
+    setShowEmojiPicker(false);
+    
+    // Focus back on input after emoji selection
+    const inputElement = document.querySelector('input[placeholder="Type your message..."]') as HTMLInputElement;
+    if (inputElement) {
+      inputElement.focus();
+    }
+  };
+
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
   };
 
   const formatTime = (date: Date) => {
@@ -415,14 +467,49 @@ export default function ChatWindow() {
               value={messageInput}
               onChange={handleInputChange}
               placeholder="Type your message..."
-              className="w-full px-3 md:px-5 py-2 md:py-3 border border-emerald-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm hover:shadow-md text-gray-800 placeholder-gray-500 text-sm md:text-base"
+              className="w-full px-3 md:px-5 py-2 md:py-3 pr-12 md:pr-14 border border-emerald-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm hover:shadow-md text-gray-800 placeholder-gray-500 text-sm md:text-base"
             />
             <button
               type="button"
-              className="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 p-1.5 md:p-2 text-gray-500 hover:text-amber-600 rounded-lg transition-colors"
+              onClick={toggleEmojiPicker}
+              className={`absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 p-1.5 md:p-2 rounded-lg transition-colors ${
+                showEmojiPicker 
+                  ? 'text-amber-600 bg-amber-100' 
+                  : 'text-gray-500 hover:text-amber-600 hover:bg-amber-50'
+              }`}
             >
               <Smile className="h-4 md:h-5 w-4 md:w-5" />
             </button>
+            
+            {/* Emoji Picker */}
+            {showEmojiPicker && (
+              <div 
+                ref={emojiPickerRef}
+                className="absolute bottom-full right-0 mb-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 w-80 max-w-[90vw] z-50 backdrop-blur-sm"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-semibold text-gray-700">Choose an emoji</h3>
+                  <button
+                    onClick={() => setShowEmojiPicker(false)}
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+                <div className="grid grid-cols-8 gap-2 max-h-64 overflow-y-auto">
+                  {emojis.map((emoji, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleEmojiSelect(emoji)}
+                      className="text-2xl p-2 rounded-lg hover:bg-gray-100 transition-colors transform hover:scale-110 duration-150"
+                      title={emoji}
+                    >
+                      {emoji}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <button
