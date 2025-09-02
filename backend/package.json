@@ -1,5 +1,5 @@
 {
-  "name": "commune-backend",
+  "name": "chat-app-backend",
   "version": "1.0.1",
   "description": "Backend for chat application with auth, private and group chat",
   "main": "dist/index.js",
